@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>央国企岗位投递看板 · 公开版</title>
+<style>
+:root{--navy:#17324D;--teal:#087E8B;--mint:#E7F7F4;--yellow:#FFF7D6;--orange:#FFF0E5;--red:#FDEDEE;--blue:#ECF3FA;--grid:#D9E4EA;--text:#1F2937;--muted:#64748B;--bg:#F5F8FA;--white:#fff;--shadow:0 1px 3px rgba(23,50,77,.06)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Arial,"Microsoft YaHei",sans-serif;color:var(--text)}
+header{background:var(--navy);color:#fff;padding:16px 20px;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.headRow{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.title{font-size:20px;font-weight:700}
+.sub{font-size:12px;opacity:.82;margin-top:4px}
+.wrap{max-width:1600px;margin:auto;padding:14px 18px 38px}
+.kpis{display:grid;grid-template-columns:repeat(9,minmax(84px,1fr));gap:8px;margin-bottom:10px}
+.kpi{background:#fff;border:1px solid var(--grid);border-radius:10px;padding:10px}
+.kpi .n{font-size:20px;font-weight:700;color:var(--navy)}
+.kpi .l{font-size:10px;color:var(--muted);margin-top:3px}
+.kpi.urgent{background:#FFF6F6;border-color:#F3C9CB}
+.kpi.urgent .n{color:#B91C1C}
+.toolbar{background:#fff;border:1px solid var(--grid);border-radius:10px;padding:10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;position:sticky;top:78px;z-index:15;box-shadow:var(--shadow)}
+.toolbar input,.toolbar select{padding:7px 8px;border:1px solid var(--grid);border-radius:7px;font-size:11px;background:#fff}
+.toolbar .sep{height:20px;width:1px;background:var(--grid);margin:0 2px}
+.toolbar label{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:3px}
+.toolbar button{padding:7px 10px;border:0;border-radius:7px;background:var(--teal);color:#fff;font-size:11px;cursor:pointer}
+.toolbar .ghost{background:#EEF4F7;color:var(--navy)}
+.filterNote{font-size:11px;color:var(--muted);margin:9px 2px 4px}
+.filterNote b{color:var(--teal)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:8px}
+.card{background:#fff;border:1px solid var(--grid);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.card.dim{opacity:.42}
+.cardHead{padding:13px 14px 10px;border-bottom:1px solid #edf2f5}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.name{font-size:16px;font-weight:700;color:var(--navy)}
+.meta{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.5}
+.tag{display:inline-block;padding:3px 6px;margin:3px 4px 0 0;border-radius:999px;background:#F1F5F9;font-size:9px;color:#475569}
+.tag.good{background:var(--mint);color:#0F766E}
+.tag.warn{background:var(--yellow);color:#92400E}
+.tag.bad{background:var(--red);color:#991B1B}
+.tag.blue{background:var(--blue);color:#1D4ED8}
+.badge{padding:5px 8px;border-radius:999px;background:var(--yellow);font-weight:700;font-size:11px;white-space:nowrap;text-align:center}
+.badge.ja{background:#DCFCE7;color:#15803D}
+.badge.jb{background:var(--blue);color:#1D4ED8}
+.badge.jc{background:#F1F5F9;color:#475569}
+.badge.jd{background:var(--red);color:#991B1B}
+.body{padding:11px 14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.section{margin-bottom:10px}
+.st{font-size:10px;color:var(--muted);font-weight:700;margin-bottom:4px}
+.txt{font-size:11px;line-height:1.55}
+.box{border:1px solid #e7edf1;background:#FBFDFF;border-radius:8px;padding:8px}
+.goodbox{background:#F4FBF9}
+.warnbox{background:#FFFBEF}
+.badbox{background:#FFF6F6}
+.infobox{background:#F7FAFF}
+.linkbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.btn{display:inline-flex;align-items:center;padding:4px 7px;border:1px solid var(--grid);border-radius:7px;text-decoration:none;color:var(--navy);background:#fff;font-size:10px}
+.btn.primary{background:#EDF8F7;border-color:#BDE3DE;color:#0F766E}
+.accessGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.ai{border:1px solid var(--grid);border-radius:7px;padding:6px;background:#fff;text-align:center}
+.ai .k{font-size:9px;color:var(--muted)}
+.ai .v{font-size:10px;font-weight:700;margin-top:2px;line-height:1.3}
+.v.ok{color:#0F766E}.v.warn{color:#B45309}.v.bad{color:#B91C1C}.v.na{color:#64748B}
+.gate{border-left:3px solid var(--orange);background:#FFFBEF;border-radius:8px;padding:8px 9px;margin:8px 0}
+.gate.none{border-left-color:var(--teal);background:#F4FBF9}
+.gate .gl{font-size:9px;color:var(--muted);font-weight:700}
+.gate .gv{font-size:11px;font-weight:700;color:var(--navy);margin-top:2px;line-height:1.45}
+.statusRow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px;padding-top:8px;border-top:1px dashed #e2e8f0}
+.statusSel{padding:4px 6px;border:1px solid var(--grid);border-radius:6px;background:#fff;font-size:10px;font-weight:600}
+.dl{font-size:10px;font-weight:700;padding:3px 7px;border-radius:6px}
+.dl.open{background:#FEE2E2;color:#B91C1C}
+.dl.soon{background:#FEF3C7;color:#92400E}
+.dl.closed{background:#F1F5F9;color:#64748B}
+.dl.rolling{background:#DBEAFE;color:#1D4ED8}
+details summary{cursor:pointer;font-size:10px;color:var(--navy);font-weight:700}
+.mini{font-size:9px;color:var(--muted);line-height:1.45}
+.foot{font-size:9px;color:var(--muted);margin:13px 2px}
+.hidden{display:none}
+.pillLine{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.legend{background:#fff;border:1px solid var(--grid);border-radius:10px;padding:10px 12px;margin-top:8px;font-size:10px;color:var(--muted);line-height:1.7}
+.legend b{color:var(--navy)}
+.legend span{margin-right:10px;white-space:nowrap}
+@media(max-width:1200px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(4,1fr)}.accessGrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}.two,.three,.accessGrid{grid-template-columns:1fr}.headRow{flex-direction:column;align-items:flex-start}.toolbar{position:static}.wrap{padding:10px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="headRow">
+    <div>
+      <div class="title">央国企岗位投递看板 · 公开版</div>
+      <div class="sub">2025届择业期｜江浙沪｜Fit×Access 双轴｜J级动作状态｜投递状态本地保存</div>
+    </div>
+    <div style="text-align:right;font-size:11px;opacity:.85">
+      <div>核验日 2026-10-05</div>
+      <div style="margin-top:3px">J-A 可直接投 · J-B 问一项 · J-C 跟踪 · J-D 排除</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="kpis" id="kpis"></div>
+
+  <div class="toolbar">
+    <input id="q" style="min-width:180px" placeholder="搜索企业/岗位/城市/门槛关键词…">
+    <div class="sep"></div>
+    <label>地区 <select id="region"><option value="">不限</option></select></label>
+    <label>企业性质 <select id="nature"><option value="">不限</option><option>央企</option><option>省属国企</option><option>市属国企</option></select></label>
+    <label>层级 <select id="tier"><option value="">不限</option></select></label>
+    <label>J级 <select id="jlevel"><option value="">不限</option><option value="J-A">J-A 可直接投</option><option value="J-B">J-B 问一项</option><option value="J-C">J-C 跟踪</option><option value="J-D">J-D 排除</option></select></label>
+    <div class="sep"></div>
+    <label>匹配度 <select id="fit"><option value="">不限</option><option>高</option><option>中高</option><option>中</option><option>低</option></select></label>
+    <label>专业口径 <select id="major"><option value="">不限</option><option>明确列我专业</option><option>相关专业/相关</option><option>专业不限</option><option>专业目录不含</option><option>待核</option></select></label>
+    <label>能力方向 <select id="ability"><option value="">不限</option></select></label>
+    <label>届别准入 <select id="jiebie"><option value="">不限</option><option>明确符合</option><option>明确不符合</option><option>待确认</option><option>不适用</option></select></label>
+    <label>工作经验 <select id="exp"><option value="">不限</option><option>无要求</option><option>达标</option><option>略不足</option><option>明显不足</option></select></label>
+    <label>工作性质 <select id="nature2"><option value="">不限</option><option>符合</option><option>部分冲突</option><option>明显冲突</option></select></label>
+    <label>证据等级 <select id="evi"><option value="">不限</option><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
+    <label>招聘状态 <select id="rstate"><option value="">不限</option><option>在招</option><option>即将发布</option><option>长期滚动</option><option>已截止</option></select></label>
+    <label>来源批次 <select id="srcbatch"><option value="">全部</option><option value="new">仅视频源新增</option><option value="old">仅前四轮已核验</option></select></label>
+    <div class="sep"></div>
+    <label>💰 薪资档 <select id="paytier"><option value="">不限</option><option value="S">S 年包20万+</option><option value="A">A 15-20万</option><option value="B">B 12-15万</option><option value="C">C 8-12万（降权）</option><option value="D">D &lt;8万</option><option value="U">U 未公开（待核）</option></select></label>
+    <label>高薪达标 <select id="payok"><option value="">不限</option><option value="1">达标/优</option></select></label>
+    <label>🎁 福利好 <select id="welfare"><option value="">不限</option><option value="1">好（八险二金/企业年金/补充医疗）</option></select></label>
+    <label>🏢 办公室 <select id="office"><option value="">不限</option><option value="符合">符合（写字楼/总部）</option><option value="部分冲突">部分冲突</option><option value="明显冲突">明显冲突（一线/倒班/驻场）</option></select></label>
+    <label>🚫 无销售压力 <select id="nosales"><option value="">不限</option><option value="1">确认无销售压力</option><option value="待确认">待确认（可能带指标）</option><option value="有">有销售指标（排除）</option></select></label>
+    <div class="sep"></div>
+    <label>排序 <select id="sort">
+      <option value="jlev">按 J 级（可投优先）</option>
+      <option value="fit">按匹配度</option>
+      <option value="dl">按截止时间</option>
+      <option value="co">按企业名</option>
+    </select></label>
+    <button onclick="clearAllStatus()">清空投递状态</button>
+    <button class="ghost" id="reset">重置筛选</button>
+  </div>
+
+  <div class="filterNote" id="fnote"></div>
+
+  <div class="legend">
+    <b>J 级说明：</b>
+    <span><span class="badge ja">J-A</span> 现在就能投</span>
+    <span><span class="badge jb">J-B</span> 高匹配，只差一项确认</span>
+    <span><span class="badge jc">J-C</span> 当前不可投，值得长期盯</span>
+    <span><span class="badge jd">J-D</span> 真硬冲突，不投</span>
+    <br>
+    <b>⚠️ 两个最紧急窗口：</b>
+    <span style="color:#B91C1C;font-weight:700">① 江苏省铁路集团 10-07 23:59 截止（还剩 2 天）</span>　
+    <span style="color:#B91C1C;font-weight:700">② 江苏省港口集团 10-20 24:00 截止（还剩 15 天）</span>
+    <br>
+    <b>关键提醒：</b>江浙沪央国企 2026 秋招已普遍切到 <b>2027 届</b>口径，2025 届仅剩少数窗口明文开口子。当前零硬门槛窗口＝<b>江苏省港口集团 + 物产中大系</b>；唯一「应届或两年内往届」明文＝<b>物产中大化工/欧泰</b>。
+    <br>
+    <b>⭐ 薪资档（权重最高）：</b>
+    <span style="color:#15803D">S 年包20万+</span>／<span style="color:#15803D">A 15-20万</span>／B 12-15万／<span style="color:#B45309">C 8-12万（降权）</span>／<span style="color:#B91C1C">D &lt;8万</span>／<span style="color:#64748B">U 未公开（待核≠低薪）</span>
+    ｜ 你的规则：「七八千不是很容易找么」→ C 档降权；但若「很好进+内容简单+福利好」可上调。
+    <br>
+    <b>⭐ 薪资档（权重最高）：</b>
+    <span style="color:#15803D">S 年包20万+</span>／<span style="color:#15803D">A 15-20万</span>／B 12-15万／<span style="color:#B45309">C 8-12万（降权）</span>／<span style="color:#B91C1C">D &lt;8万</span>／<span style="color:#64748B">U 未公开（待核≠低薪）</span>
+    ｜ 你的规则：「七八千不是很容易找么」→ C 档降权；但若「很好进+内容简单+福利好」可上调。
+    <br>
+    <b>你的硬要求（已做成筛选器）：</b>
+    <span>💰高薪达标</span><span>🎁福利好</span><span>🏢办公室（不住场/不倒班/不一线）</span><span>🚫无销售压力</span>
+    顶部 KPI「全硬要求命中」= 四项全中数量；用工具栏 💰/🎁/🏢/🚫 一键筛出符合岗位。
+    <br>
+    <b>数据来源：</b>① 官方招聘公告/官网/官方公众号（A/B 级）② 企业官方招聘账号（C 级）③ 高校就业网转载（B 级）④ 用户提供的视频解析数据（D 级，已标待复核）。视频源含 480 行央国企记录，本看板已提取其中江浙沪 + 目标职能 + 与你专业/能力对口的增量。
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="foot">
+    数据来源：官方招聘公告 / 官方招聘系统 / 企业招聘账号 / 高校就业网转载。所有截止时间与口径均以原文为准；标「待核」处未做推断。投递状态保存在本机浏览器（localStorage），换机器不同步。
+  </div>
+</div>
+
+<script>
+const POS=[
+/* ================= J-A 可直接投 ================= */
+{
+id:"pa01",company:"江苏省港口集团",entity:"江苏省港口集团有限公司（省属国企）",natureType:"省属国企",tier:"集团本部",region:"江苏",city:"南京/苏州/镇江/扬州",
+role:"市场业务岗 / 生产管理岗",payok:true,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"待确认",ability:["运营商务","综合管理"],jlevel:"J-A",fit:"高",major:"相关专业/相关",
+majorNote:"市场业务岗：交通运输、物流管理、金融、国贸、市场营销、外语等相关专业；生产管理岗：交通运输、物流管理等相关专业。写明「等相关」，非仅限 → 道桥可投",
+access:{届别:"明确符合",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"无硬门槛（唯一卡点：每人限投 1 个岗位）",gateType:"none",
+salary:"未公开→待核（按体系规则：未知≠低薪）",
+deadline:"2026-10-20 24:00",rstate:"在招",
+evidence:"A",channel:"官网招聘平台 zhaopin.portjs.cn",url:"https://zhaopin.portjs.cn/zp.html#/",
+strengths:[
+"公告原文「校园招聘计划：面向 2027 届毕业生、两年择业期内未就业毕业生」——你 2025.06 毕业、未缴社保、档案在 school/人才市场，双条件全中",
+"学历/届别/专业/经验四关全过：本科✅、两年择业期✅、专业「等相关」✅、校招无经验门槛✅",
+"CET-6 是加分项而非门槛（本科综合岗优先英语四级 425 分以上）——你是优势项",
+"业务/管理岗，不是操作岗，不倒班不驻场，符合你「城市办公室」硬要求",
+"苏南（南京/苏州/镇江/扬州）都在你的目标城市列表内"
+],
+risks:[
+"每人限投 1 岗 → 投之前必须先想清楚选市场业务岗还是生产管理岗",
+"招满即止，建议 10 月中旬前投，不要拖到截止日",
+"薪资未公开，面试时必须问：月薪结构/绩效/五险一金/公积金比例"
+],
+next:"现在就投，投完在系统里记录投递状态；10 月 20 日截止后进入笔试面试环节"
+},
+{
+id:"pa02",company:"物产中大化工集团",entity:"物产中大化工集团有限公司（物产中大集团一级子公司，世界500强第150位）",natureType:"省属国企",tier:"二级/一级子公司",region:"浙江",city:"杭州拱墅",
+role:"物流管理（招 1 人）",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["供应链物流","采购招采","运营商务"],jlevel:"J-A",fit:"高",major:"相关专业/相关",
+majorNote:"JD 原文「国际航运、国际贸易、物流管理专业优先」——「优先」制非硬门槛；浙大就业平台该岗专业字段标注为「不限」",
+access:{届别:"明确符合",专业:"相关",经验:"达标",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"无硬门槛（竞争激烈：仅招 1 人）",gateType:"none",
+salary:"10–15K（中科大/浙大就业页原文）；六险二金、住房补贴、午餐补贴、杭州落户",
+deadline:"长期开放（页面挂至 2027-09-11）",rstate:"在招",
+evidence:"B",channel:"官方 Moka 网申 + 招聘邮箱",url:"https://app.mokahr.com/campus-recruitment/wzgroup/76099",
+strengths:[
+"全池子唯一明文「重点大学本科及以上学历和学位应届或工作经验两年内的往届毕业生」——你完全在窗口内（毕业 1 年 4 个月）",
+"工作内容与你的真实经历同构：筛选物流供应商、第三方仓库监管盘点、物流全链条管理、供应商谈判——你做过比价降本8%、出入库盘点、订单履约",
+"杭州拱墅写字楼办公，供应商/仓库巡检属正常业务出差，可接受",
+"武汉理工是双一流，符合「重点大学」口径",
+"CET-6 满足「良好的英文水平」"
+],
+risks:[
+"只招 1 人，强竞争，建议简历第一行就压「供应商比价降本 8%」",
+"专业是「物流管理优先」，道桥需在简历里把供应链实践前置对冲",
+"JD 明示「能接受外派/出差」——面试要问清是否涉及海外外派",
+"竞争者多为物流/供应链科班，凭实践差异化取胜"
+],
+next:"今天就投（Moka 网申 + 邮件 zjmichemhr@wzgroup.cn 双通道），简历用「供应链实践版」"
+},
+{
+id:"pa03",company:"中国外运华东有限公司",entity:"中国外运华东有限公司·外运浙江义乌公司（招商局→中国外运→区域公司）",natureType:"央企",tier:"三级/区域公司",region:"浙江",city:"金华（义乌）",
+role:"单证操作",payok:false,salaryTier:"C",salaryTier:"C",welfareGood:true,sales:"无",ability:["单证贸易","供应链物流"],jlevel:"J-A",fit:"中高",major:"待核",
+majorNote:"51job 岗位页未列专业要求（单证岗通常专业宽或不限）；投递时以 HR 回复为准",
+access:{届别:"不适用",专业:"待核",经验:"无要求",英语:"有优势",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"薪资区间下限 5K 低于你的 7–8K 偏好（可谈，非硬冲突）",gateType:"",
+salary:"5千–1万；五险一金、餐补、高温补贴",
+deadline:"在招（51job 官方账号常年挂岗）",rstate:"长期滚动",
+evidence:"C",channel:"51job 中国外运华东企业官方账号",url:"https://msearch.51job.com/jobs/all/co3957348.html",
+strengths:[
+"「无需经验」——零经验门槛，本科即可，是当前唯一无任何前置要求的在招岗",
+"单证操作与你的外贸跟单实践直接同构（提单/舱单/报关/出入库）",
+"金华义乌在浙江第一优先城市列表内",
+"央企正式合同、五险一金齐全",
+"有 53 个在招职位可横向选择（商务/单证/操作/市场）"
+],
+risks:[
+"薪资 5–10K 跨度大，下限低于你的期望 → 面试必须问清实际定级",
+"义乌非省会，通勤/生活成本需评估",
+"单证岗旺季有加班，需面试确认强度",
+"专业要求未明示 → 投递后主动问 HR「是否限专业」"
+],
+next:"投递 + 问 HR 专业要求；同时浏览该企业其他商务/操作岗（1 年经验岗现在可积累，半年后再打）"
+},
+
+/* ================= J-B 高匹配·问一项 ================= */
+{
+id:"pb01",company:"物产中大欧泰有限公司",entity:"物产中大欧泰有限公司（物产中大集团一级子公司，橡胶/油品产业链）",natureType:"省属国企",tier:"一级子公司",region:"浙江",city:"杭州拱墅",
+role:"物流管理岗（单证/关务/仓储协调）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["供应链物流","单证贸易"],jlevel:"J-B",fit:"高",major:"相关专业/相关",
+majorNote:"「重点本科及以上，国际航运、物流管理等相关专业优先」——优先制",
+access:{届别:"待确认",专业:"相关",经验:"达标",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"2025 届是否可投（岗位未写届别；同集团化工岗有「两年内往届」明文先例，可类推但不保证）",gateType:"",
+salary:"12K+（浙大就业页原文）",
+deadline:"2026-10-31",rstate:"在招",
+evidence:"B",channel:"浙大就业平台直发，简历投递 matx@wzgroup.cn",url:"https://www.career.zju.edu.cn/",
+strengths:[
+"同集团化工岗明文「应届或两年内往届」→ 集团级惯例的可能性高",
+"工作内容：信用证/报关单据/提单审单、租船订舱、产地证认证、货代费用结算、仓储现场协调——与你的外贸跟单+仓储经验高度重叠",
+"杭州拱墅办公，12K+ 高于期望",
+"接受国内出差外派（你的正常业务出差可接受）"
+],
+risks:[
+"届别是唯一卡点：岗位页未写届别，必须邮件问 HR",
+"与 pa02 同集团，简历可复用，省时",
+"专业为「优先」制，仍属相关专业"
+],
+next:"邮件 matx@wzgroup.cn / weiss@wzgroup.cn 问「2025届往届两年内是否可投」，同时直接投递（10-31 截止，先投为安）"
+},
+{
+id:"pb02",company:"中储发展股份有限公司",entity:"中储发展股份有限公司·上海地区事业部（诚通控股→中国物流集团→中储股份）",natureType:"央企",tier:"二级/地区事业部",region:"上海",city:"上海（徐汇西岸/宝山/浦东，就近安排）",
+role:"物流运营管培生（市场开发/运营/客服方向，轮岗定岗）",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["供应链物流","运营商务","综合管理"],jlevel:"J-B",fit:"高",major:"相关专业/相关",
+majorNote:"「物流管理、物流工程、管理学类、交通运输类专业优先」——优先制",
+access:{届别:"待确认",专业:"相关",经验:"无要求",英语:"有优势",性质:"部分冲突",薪资:"达标",学历:"达标"},
+gate:"「应届毕业生」如何定义（官方挂应届口径，智联同岗标「经验不限」）；且培养期可能倒班「视培养方向而定」",gateType:"",
+salary:"7–10K（智联原文）；五险二金、企业年金、员工餐厅、绩效奖金",
+deadline:"挂至 2027-04-30",rstate:"在招",
+evidence:"A",channel:"官方网申 chinalogisticsgroup.hotjob.cn",url:"https://chinalogisticsgroup.hotjob.cn/",
+strengths:[
+"央企（国资实控）平台，轮岗定岗培养机制，对 0 经验友好",
+"工作地点原则就近安排——徐汇西岸是写字楼办公，优于库区岗",
+"岗位覆盖市场开发/运营/客服/物流运营，含办公室方向",
+"专业「优先」制 + 智联标「经验不限」，双口径对你有利",
+"CET-6 满足「良好的英语能力」"
+],
+risks:[
+"⚠️ 培养期可能倒班（原文「视培养方向而定」）→ 面试必须问清市场开发岗是否倒班",
+"「应届毕业生」定义未明 → 2025 届能否按应届对待需确认",
+"期货交割库业务背景，仓储现场成分可能高于预期"
+],
+next:"官方网申系统投递 + 留言问「2025 届是否按应届认定、市场开发方向是否倒班」"
+},
+{
+id:"pb03",company:"联华股份（百联集团）",entity:"上海联华超市股份有限公司（百联集团旗下，上海市属国企）",natureType:"市属国企",tier:"二级/专业公司",region:"上海",city:"上海",
+role:"供应链管培生（采购流程/供应商谈判/采购数据复盘）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:false,sales:"无",ability:["采购招采","供应链物流","运营商务"],jlevel:"J-B",fit:"高",major:"相关专业/相关",
+majorNote:"「工商管理、供应链管理、物流管理等相关专业优先」——优先制",
+access:{届别:"待确认",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"2025 届择业期能否进百联 27 届校招体系（岗位挂在 27 届体系下，但 51job 独立岗未写届别）",gateType:"",
+salary:"未公开→待核",
+deadline:"在招（2026-09-01 发布）",rstate:"在招",
+evidence:"C",channel:"51job 百联集团企业官方账号",url:"https://campus.51job.com/bljt2027",
+strengths:[
+"岗位内容＝采购标准化流程、价格管控、供应商谈判、供应商台账、履约分级管理、采购数据复盘——与你的供应商比价降本 8%、数据复盘能力直接对位",
+"「相关专业优先」非硬门槛",
+"上海市属商业龙头，双休/五险一金（零售国企标准配置）",
+"同一集团另有联华股份营运中心管培生（工程管理专业优先）可作备选"
+],
+risks:[
+"百联 27 届校招对象为 2026.9–2027.8 毕业 → 2025 届可能被体系排除，需确认",
+"零售行业节奏偏快，需面试确认加班强度",
+"薪资未公开"
+],
+next:"51job 问 HR「2025 届择业期是否可投管培生」，同时投递；备投同集团营运中心管培生"
+},
+{
+id:"pb04",company:"中国外运华东有限公司",entity:"中国外运华东有限公司·海运分公司（招商局→中国外运）",natureType:"央企",tier:"三级/区域分公司",region:"上海",city:"上海黄浦（福建中路）",
+role:"单证员（提单确认/VGM/舱单）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["单证贸易","供应链物流"],jlevel:"J-B",fit:"高",major:"待核",
+majorNote:"岗位页未列专业要求（单证岗）",
+access:{届别:"不适用",专业:"待核",经验:"略不足",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"要求 1 年及以上经验——你正式跟单 4 个月 + 真实订单/仓储实践，由 HR 判定是否认可",gateType:"",
+salary:"14–16 万/年（本组最高薪岗位之一）；五险一金、补充医疗、交通补贴、餐补",
+deadline:"常年社招在招",rstate:"长期滚动",
+evidence:"C",channel:"51job 中国外运华东企业官方账号",url:"https://msearch.51job.com/jobs/all/co3957348.html",
+strengths:[
+"薪资最高的一档（14–16 万/年 ≈ 12K+/月），明确高于你的 7–8K 期望",
+"正式年限存在缺口，但 JD 工作内容（提单确认、舱单、VGM、单证操作）与你的外贸跟单实践高度同构",
+"上海黄浦核心区写字楼，不倒班不驻场",
+"岗位常年在招 → 可以现在投，被拒不影响后续再投",
+"「提单确认/业务协调/单证交接」是可以通过简历与面试讲清的真实能力"
+],
+risks:[
+"1 年经验是唯一门槛，HR 可能要社保记录 → 简历里把琳可贸易跟单 4 个月的真实工作内容写实，不夸大",
+"无专业列示，需问清",
+"单证岗有周期性加班"
+],
+next:"直接投（用「外贸跟单版」简历），HR 一天内处理简历，简历投递时突出订单/单证/台账细节"
+},
+{
+id:"pb05",company:"上汽安吉物流",entity:"上汽安吉物流股份有限公司（上汽集团旗下，上海市属国企，全球汽车物流龙头）",natureType:"市属国企",tier:"二级/专业公司",region:"上海",city:"上海",
+role:"2027 届管培生·国际供应链管理类 / 物流仓储管理类 / 运输规划管理类 / 航运管理类",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["供应链物流","运营商务","数字化AI"],jlevel:"J-B",fit:"高",major:"专业不限",
+majorNote:"公告原文「除职能类、语言类岗位需专业对口，其他专业不限」——你是道桥，属专业不限范围✅",
+access:{届别:"明确不符合",专业:"专业不限",经验:"无要求",英语:"达标",性质:"部分冲突",薪资:"未知",学历:"达标"},
+gate:"仅招 2027 届（差一届）；且「可承担全国轮岗或海外公司派驻」可能含一线现场",gateType:"",
+salary:"未公开→待核（有竞争力薪酬+补充医疗+人才公寓+购车优惠）",
+deadline:"2027 届校招进行中",rstate:"在招",
+evidence:"A",channel:"官方公众号/邮箱 recruit@anji-logistics.com",url:"https://mp.weixin.qq.com/s/bCGqxWcHiU5WikRCzkahZQ",
+strengths:[
+"专业不限（四类物流岗全开放）——道桥在可投范围，这是全池子里专业口径最宽的之一",
+"CET-6 是硬性门槛，你已达标（部分卡司还会卡 TEM-4）",
+"上汽集团体系，双休/补充医疗/人才公寓/连续 8 年中国杰出雇主",
+"「国际供应链管理类」与你外贸单证+跨境经历同构",
+"总部 base 上海"
+],
+risks:[
+"❌ 届别 27 届，2025 届当前进不去（按体系规则：不是 J-D，是 J-B，门槛=届别）",
+"⚠️ 轮岗可能含一线仓储/现场协调 → 与你排斥长期现场有潜在冲突，需问清轮岗方案",
+"面试可能有英文环节（公告写「熟练的英语沟通能力」）"
+],
+next:"低成本尝试：邮件 recruit@anji-logistics.com 问「是否有往届/社招补招名额」；正式窗口等 2027 秋招（届时应届身份仍不符）→ 重点转向该集团社招通道"
+},
+{
+id:"pb06",company:"江苏交通控股",entity:"江苏交通控股有限公司（江苏省属国有独资，总部南京）",natureType:"省属国企",tier:"集团本部",region:"江苏",city:"南京及省内",
+role:"专场岗位（管培生/工程管理/低空物流管理/营运管理）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"待确认",ability:["综合管理","运营商务","项目协调"],jlevel:"J-B",fit:"中高",major:"相关专业/相关",
+majorNote:"岗位清单含工程管理、路桥工程、智慧高速 AI 算法、AI 智能交通、营运管理等；春季批次含「2025 年未就业+2026 应届」口径",
+access:{届别:"待确认",专业:"相关",经验:"达标",英语:"达标",性质:"部分冲突",薪资:"达标",学历:"达标"},
+gate:"「离校未就业高校毕业生」是否含 2025 届（9 月省属专场口径为「2027 届+离校未就业」）",gateType:"",
+salary:"15–18 万/年（省人社厅专场公告原文）",
+deadline:"专场后滚动招聘",rstate:"长期滚动",
+evidence:"B",channel:"官网 jchc.cn 人才中心 / 025-52863660",url:"https://www.jchc.cn",
+strengths:[
+"省属核心平台，管培生项目明确面向往届未就业（历史口径：2025 年未就业+2026 应届）",
+"薪资 15–18 万/年，省属里给得高",
+"岗位方向有营运管理/综合管理类，不必全是工程现场",
+"集团体面正、总部在南京（省内）"
+],
+risks:[
+"「离校未就业」是否含 2025 届需官方确认——这是唯一卡点",
+"工程管理岗可能偏建设/现场，需挑岗位",
+"有笔试（省市级国企招聘标准化笔试）"
+],
+next:"打 025-52863660 问「2025 届离校未就业是否可报」，同时官网人才中心看当前在招批次"
+},
+{
+id:"pb07",company:"江苏省港口集团",entity:"江苏省港口集团有限公司（社招滚动岗）",natureType:"省属国企",tier:"集团本部/所属单位",region:"江苏",city:"南京/苏州等",
+role:"技术类社会招聘（部分岗位长期滚动）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:false,sales:"无",ability:["数字化AI","运营商务","综合管理"],jlevel:"J-B",fit:"中高",major:"相关专业/相关",
+majorNote:"专业技术岗：机械、电气、自动化、港航、土木、水利、测绘、计算机等",
+access:{届别:"不适用",专业:"相关",经验:"略不足",英语:"有优势",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"要求具备相关工作经验（社招岗经验门槛）",gateType:"",
+salary:"未公开→待核",
+deadline:"长期滚动（不受 10-20 限制）",rstate:"长期滚动",
+evidence:"A",channel:"官网 zhaopin.portjs.cn（技术类社招滚动）",url:"https://zhaopin.portjs.cn/zp.html#/",
+strengths:[
+"与 pa01 同一集团但不同通道——即使错过校招截止，社招滚动岗长期开放",
+"苏南城市、港口业务稳定",
+"可作为「先混脸熟、等经验」的长期入口"
+],
+risks:[
+"经验要求把你挡在门外（社招通例）",
+"技术类岗与你的道桥+AI 工具能力交集有限"
+],
+next:"投 pa01 的同时顺手投滚动社招岗，作为兜底通道"
+},
+
+/* ================= J-C 长期跟踪 ================= */
+{
+id:"pc01",company:"中国铁路上海局集团",entity:"中国铁路上海局集团有限公司（国铁集团直属）",natureType:"央企",tier:"集团本部/站段",region:"上海/江苏/浙江/安徽",city:"上海、南京、苏州、宁波、徐州",
+role:"物资业务/货运/经营管理（历史批次曾招 1236 人）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["供应链物流","运营商务","综合管理"],jlevel:"J-C",fit:"高",major:"相关专业/相关",
+majorNote:"历史：研究生交通运输/物流工程/物流与供应链管理；本科交通运输/物流工程/物流管理/交通工程及相关专业；职能综合岗本科岗含物流管理、工商管理、土木工程",
+access:{届别:"待确认",专业:"相关",经验:"无要求",英语:"达标",性质:"部分冲突",薪资:"达标",学历:"达标"},
+gate:"2027 年度公告尚未发布（宣讲会 9/17 已启动）；2026 年度曾明文收「2025 届离校未就业」，2027 批口径待官方确认",gateType:"届别",
+salary:"未公开→待核；六险二金口径",
+deadline:"待公告（2026 年 10 月起陆续发布）",rstate:"即将发布",
+evidence:"A",channel:"中国铁路人才招聘网 rczp.china-railway.com.cn（唯一官方）",url:"https://rczp.china-railway.com.cn/",
+strengths:[
+"历史明文：「2025 届已毕业离校未就业毕业生以应届毕业生身份参加应聘」——有明文先例",
+"国铁央企编制，沪苏浙皖全属地，就业稳定性最高",
+"上铁物资公司/新上铁有物资业务岗；六险二金",
+"第三方口径称 2027 批仍收 2025-2026 届两年择业期未就业者（需官方核验）"
+],
+risks:[
+"⚠️ 2027 批若只收 2026 届未就业，你的窗口会关闭 → 这是需要盯的关键公告",
+"行车/客运岗需适应夜班与野外作业 → 只能投物资/货运/经营管理类",
+"专业「交通工程」方向与道桥相关但不等同，需按岗位表逐个核"
+],
+next:"本周起每天刷 rczp.china-railway.com.cn，公告发布当日核验届别口径；优先投物资业务/经营管理岗"
+},
+{
+id:"pc02",company:"中交三航局工程物资有限公司",entity:"中交第三航务工程局有限公司·工程物资有限公司（中交集团→三航局，2027 届校招物资公司）",natureType:"央企",tier:"三级/专业公司",region:"上海",city:"上海（浦东）",
+role:"物资管理岗（招投标/合同签订/物资进度/对账结算/库存盘点）",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["采购招采","供应链物流","项目协调"],jlevel:"J-C",fit:"高",major:"相关专业/相关",
+majorNote:"市场营销、物流管理、供应链管理等专业；2026 届版曾写「双一流院校毕业生优先」",
+access:{届别:"明确不符合",专业:"相关",经验:"无要求",英语:"有优势",性质:"部分冲突",薪资:"达标",学历:"达标"},
+gate:"仅招 2027 届（差一届）；且需确认定岗后是否在项目部/现场",gateType:"届别",
+salary:"岗薪+补贴+绩效，五险三金（含补充公积金+企业年金）",
+deadline:"2027 届校招进行中",rstate:"在招",
+evidence:"B",channel:"官方公众号「中交三航招聘」",url:"https://campus.niuqizp.com/",
+strengths:[
+"工作内容＝工程物资招投标、合同、进度控制、对账结算、库存盘点、台账归档——与你的采购比价、台账、单证经验同构",
+"中交集团成员，上海浦东办公",
+"五险三金，待遇在央企里靠前",
+"专业「供应链管理」口径，你的实践可对冲"
+],
+risks:[
+"❌ 2027 届当前不可投",
+"三航局体系岗位可能与项目部绑定（需确认是否常驻项目）",
+"招聘时点 2026-09-07～10-05（该批次已过）"
+],
+next:"不投当前批次；盯 2027 届秋招（通常 9 月）＋问集团社招；同时关注三航局本部 27 届"
+},
+{
+id:"pc03",company:"中远海运物流供应链",entity:"中远海运物流供应链有限公司（中远海运集团直属二级，2027 届校招 212 岗）",natureType:"央企",tier:"二级公司",region:"上海/北京",city:"上海/北京等",
+role:"全链物流类/资源建设类/数智科技类/通用职能类（212 个岗位）",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["供应链物流","运营商务","数字化AI"],jlevel:"J-C",fit:"高",major:"相关专业/相关",
+majorNote:"全链物流类：物流管理、供应链管理、交通运输、物流工程、采购与供应管理、国际物流等",
+access:{届别:"明确不符合",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"仅招 2027 届（差一届）",gateType:"届别",
+salary:"六险二金、北京上海等城市有竞争力薪酬、择优推荐优先落户",
+deadline:"2027 届校招进行中",rstate:"在招",
+evidence:"A",channel:"官方网申（国聘/官网）",url:"https://www.coscoshipping.com/",
+strengths:[
+"212 个岗位、4 大类，是本池子里岗位体量最大的央企",
+"「资源建设类」专业含土木工程/工程造价/交通运输——道桥可对冲",
+"六险二金+优先落户，待遇优",
+"国际物流方向与你的外贸经历匹配"
+],
+risks:["❌ 2027 届当前不可投","上海岗位多为硕士要求（物流运营管理岗明确最低硕士）"],
+next:"不投校招；关注其社招（上海海运操作/物流专员 1-3 年经验），积累 1 年经验后打"
+},
+{
+id:"pc04",company:"中建八局",entity:"中国建筑第八工程局有限公司（中国建筑二级，总部上海）",natureType:"央企",tier:"二级公司",region:"上海及全国",city:"上海（总部）",
+role:"物资工程师/商务工程师/职能管理（2027 届校招）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:false,sales:"无",ability:["采购招采","供应链物流","项目协调"],jlevel:"J-C",fit:"中高",major:"明确列我专业",
+majorNote:"华南公司 2027 届：「物资工程师」在列，专业目录含土木工程、工程管理类；道桥属土木方向",
+access:{届别:"明确不符合",专业:"明确列我专业",经验:"无要求",英语:"达标",性质:"明显冲突",薪资:"未知",学历:"达标"},
+gate:"❌ 2027 届；且建筑物资岗多在项目现场（与你排斥的驻场冲突）",gateType:"届别+性质",
+salary:"未公开→待核",
+deadline:"2027 届校招进行中",rstate:"在招",
+evidence:"A",channel:"官方网申 job.cscec8b.com.cn",url:"https://job.cscec8b.com.cn/",
+strengths:[
+"总部在上海，专业目录明确含土木工程类 → 专业不用纠结",
+"物资工程师是纯职能岗（不是施工现场）",
+"中建体系，双休/六险二金（部分单位）"
+],
+risks:[
+"❌ 2027 届不可投",
+"⚠️ 物资岗虽非施工，但多在项目/分公司，异地派驻常见",
+"平台大但条目多，需要精确到具体子公司"
+],
+next:"不投当前批次；若考虑中建体系，优先找上海本部的职能/物资岗，且要问派驻地点"
+},
+{
+id:"pc05",company:"上港集团",entity:"上海国际港务（集团）股份有限公司（上海市属国企，全球最大港口之一）",natureType:"市属国企",tier:"集团本部",region:"上海",city:"上海",
+role:"生产管理岗（港口物流/物流工程/交通管理）/工程建设岗（土木）/综合管理岗",payok:false,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["供应链物流","运营商务","综合管理"],jlevel:"J-C",fit:"中高",major:"明确列我专业",
+majorNote:"工程建设岗：土木工程、工程管理、港口航道与海岸工程、建筑学等 → 道桥属土木类；生产管理岗：港口物流、物流工程、交通管理、交通运输",
+access:{届别:"明确不符合",专业:"明确列我专业",经验:"无要求",英语:"达标",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"2027 届校招（预计 2026 年 11 月启动）；管培生需世界一流高校硕士",gateType:"届别",
+salary:"五险一金+补充公积金+补充医疗+企业年金+免费工作餐+体检",
+deadline:"2026 届已过；27 届待启动",rstate:"即将发布",
+evidence:"A",channel:"官方网申 sipg.zhaopin.com",url:"https://sipg.zhaopin.com/",
+strengths:[
+"工程建设岗专业明确含土木工程 → 道桥直接对口",
+"上海市属港口龙头，福利清单在市属国企里最完整（五险一金+补充公积金+补充医疗+企业年金）",
+"生产管理岗是港口物流办公室岗，不倒班不驻场"
+],
+risks:["❌ 2027 届校招","管培生要求世界一流高校+硕士，你不符","工程建设岗偏工程管理，与你排斥的现场有距离"],
+next:"盯 2026 年 11 月 27 届校招；同步关注上港集团社招（不限届别）"
+},
+{
+id:"pc06",company:"东航物流",entity:"东方航空物流股份有限公司（中国东航二级，央企）",natureType:"央企",tier:"二级公司",region:"上海",city:"上海",
+role:"储备人才（单证处理/货站事业部/供应链公司各岗）",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["单证贸易","供应链物流","运营商务"],jlevel:"J-C",fit:"中高",major:"相关专业/相关",
+majorNote:"单证处理岗：交通运输类、物流管理类、外国语言文学类、计算机类、工商管理类等相关专业（写「相关」，非仅限）",
+access:{届别:"明确不符合",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"2026 届批次已过（报名截止 2026-06-30）；等 2027 届常规批（预计 10-11 月）",gateType:"届别",
+salary:"五险二金+商业医疗+福利平台；2027 届国际化储备人才方向薪资更高",
+deadline:"2027 届待启动",rstate:"即将发布",
+evidence:"A",channel:"官方招聘网 job.ceair.com",url:"https://job.ceair.com",
+strengths:[
+"上海央企航空物流，单证/货站/供应链方向与你外贸单证经验同构",
+"「等相关专业」口径 + CET-6 达标",
+"五险二金",
+"⚠️ 注意：另有「国际化物流储备人才」方向要求外语专八/C1/N1 硬证书 → 那一支对你硬冲突，不要投"
+],
+risks:["❌ 2027 届校招","普通储备岗竞争激烈（曾招 50+ 人）","切勿误投国际化储备方向（语言硬门槛）"],
+next:"盯 2027 届常规批发布（job.ceair.com），投单证处理/货站方向，不投国际化方向"
+},
+{
+id:"pc07",company:"上海电气",entity:"上海电气集团股份有限公司（上海市属国企，世界 500 强）",natureType:"市属国企",tier:"集团本部/子公司",region:"上海/南通/杭州",city:"上海为主",
+role:"供应链类岗位（9 大类之一）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["采购招采","供应链物流","数字化AI"],jlevel:"J-C",fit:"中高",major:"专业不限",
+majorNote:"2026 届春招公告原文「需求专业不限」；9 大类含供应链类",
+access:{届别:"明确不符合",专业:"专业不限",经验:"无要求",英语:"未知",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"2026 届校招已过；社招常年开放（sec.hotjob.cn）",gateType:"届别",
+salary:"五险一金+人才公寓+购房支持+定点班车",
+deadline:"社招常年",rstate:"长期滚动",
+evidence:"A",channel:"官方网申 sec.hotjob.cn",url:"https://sec.hotjob.cn",
+strengths:[
+"春招明确「专业不限」——道桥可投",
+"上海市属装备龙头，供应链职能岗真实存在（非一线）",
+"社招平台常年开放，有机会捡漏",
+"工作城市上海/南通/杭州都在目标范围"
+],
+risks:["❌ 校招 2027 届","社招多要求 1 年以上经验","制造业环境，办公室岗与车间岗差别大，要甄别"],
+next:"注册 sec.hotjob.cn 关注社招；一旦出现「供应链/采购/运营」不限年限岗立刻投"
+},
+{
+id:"pc08",company:"杭州联华华商集团",entity:"杭州联华华商集团有限公司（联华股份旗下，浙江零售国企）",natureType:"省属国企",tier:"二级/子公司",region:"浙江",city:"杭州（浙江省内各门店/职能部门）",
+role:"新零售管培生（营运/采购方向）、物流管培生",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["采购招采","运营商务","综合管理"],jlevel:"J-C",fit:"中高",major:"相关专业/相关",
+majorNote:"「市场营销、供应链管理等相关专业或有零售行业实习经历优先」",
+access:{届别:"明确不符合",专业:"相关",经验:"无要求",英语:"未知",性质:"部分冲突",薪资:"未知",学历:"达标"},
+gate:"2026 届批次已过；且管培含 10 个月门店管理历练（一线属性）",gateType:"届别",
+salary:"未公开→待核；福利含五险一金+免费住宿+应届毕业生落户",
+deadline:"2027 届待启动",rstate:"即将发布",
+evidence:"B",channel:"官方校招 campus.51job.com/lhhs",url:"https://campus.51job.com/lhhs",
+strengths:[
+"杭州本地，采购方向管培路径清晰（2-3 年可培养为采购专家）",
+"浙江省属国企，专业「等相关」口径",
+"应届生落户+免费住宿，福利实在"
+],
+risks:["❌ 2027 届","10 个月门店管理历练＝长期一线/现场，与你排斥的现场冲突","零售节奏偏快，加班较多"],
+next:"想投零售运营方向才考虑；否则优先物产中大（办公岗）"
+},
+{
+id:"pc09",company:"浙江交投物流集团",entity:"浙江交投物流集团有限公司（浙江省交通投资集团全资子公司）",natureType:"省属国企",tier:"二级/子公司",region:"浙江",city:"杭州拱墅",
+role:"仓储管理岗/网货运营岗/运输运营岗/业务开发岗（社招多期 + 2026 届校招）",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["供应链物流","运营商务","数字化AI"],jlevel:"J-C",fit:"中高",major:"相关专业/相关",
+majorNote:"「物流管理、供应链管理、交通运输工程、工业工程等相关专业优先」",
+access:{届别:"待确认",专业:"相关",经验:"略不足",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"社招多期要求 3-10 年经验（2026 年第五期社招）；校招 2026 届已过",gateType:"届别/经验",
+salary:"竞争性薪酬+六险二金+股权激励+人才补贴",
+deadline:"社招招到即止",rstate:"长期滚动",
+evidence:"A",channel:"集团官网 cncico.com 招聘频道",url:"https://www.cncico.com/recruit.html",
+strengths:[
+"省属智慧物流平台，2024 省服务业领军、2025 省供应链服务领军",
+"岗位是仓储/网货/运输运营——写字楼为主，不像库区",
+"专业「等相关」口径，社招低年限岗出现时可投"
+],
+risks:["社招普遍要求 3-5 年经验，门槛偏高","2026 届校招已过","部分岗含园区现场管理"],
+next:"订阅官网招聘频道（招到即止），有低年限社招岗立刻投"
+},
+{
+id:"pc10",company:"苏豪控股集团",entity:"江苏省苏豪控股集团有限公司（江苏省属国企）→江苏通用科技股份有限公司（采购专员）",natureType:"省属国企",tier:"二级/三级子公司",region:"江苏",city:"南京",
+role:"采购专员（江苏通用科技）/ 业务助理（苏豪中天、冷链物流、粮油食品进出口）",payok:false,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"待确认",ability:["采购招采","运营商务","单证贸易"],jlevel:"J-C",fit:"中",major:"专业目录不含",
+majorNote:"采购专员要求供应链管理、采购管理、工商管理等专业 → 道桥不在目录（但写「等」，非仅限）",
+access:{届别:"待确认",专业:"专业目录不含",经验:"无要求",英语:"有优势",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"9 月省属专场已过；官网常态化招聘（meetsoho.cn/rencaizhaopin）",gateType:"届别/专业",
+salary:"采购专员 7-10 万/年（省人社厅专场原文）",
+deadline:"常态化招聘，招到即止",rstate:"长期滚动",
+evidence:"B",channel:"集团官网招聘页 meetsoho.cn",url:"https://www.meetsoho.cn/rencaizhaopin/",
+strengths:[
+"省属外贸龙头旗下，采购/贸易/物流多岗可选",
+"「等」字口径 + HR 裁量 → 专业不完全等于硬门槛，值得一问",
+"双休/五险一金",
+"「苏揽英才」品牌历史批次多，机会可期"
+],
+risks:["专业目录不含道桥 → 需问 HR 是否放宽","多数批次面向应届/择业期，届别口径需确认","部分岗（苏豪冷链业务岗）要求俄语/英语等外语 → 慎选"],
+next:"官网订阅，问「采购专员是否限专业、是否接受 2025 届」"
+},
+{
+id:"pc11",company:"宝武共享服务",entity:"宝武共享服务有限公司（中国宝武一级子公司，含上海宝华国际招标）",natureType:"央企",tier:"一级子公司",region:"上海",city:"上海宝山（同济路）",
+role:"招标业务运营 / 数据产品运营（校招）；招标代理（社招）",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["采购招采","数字化AI","综合管理"],jlevel:"J-C",fit:"中",major:"专业目录不含",
+majorNote:"2026 校招数据岗要计算机/数据科学/统计；社招标岗专业口径待核",
+access:{届别:"待确认",专业:"专业目录不含",经验:"无要求",英语:"达标",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"校招 2026 届已过；社招标务岗（宝华国际招标）未找到公开在招",gateType:"届别",
+salary:"五险一金+补充公积金+企业年金；宝武共享提供单身公寓/租房补贴",
+deadline:"社招待观察",rstate:"长期滚动",
+evidence:"B",channel:"官方公众号/官网 share.baowugroup.com",url:"https://share.baowugroup.com",
+strengths:[
+"宝武一级子公司，「招标业务集中运营」职能明确，与你采购/合同/台账经验同构",
+"上海宝山，工作环境好",
+"央企平台+企业年金",
+"是「采购」方向最对口口径的央企之一（招标＝采购的另一面）"
+],
+risks:["校招数据岗要计算机类 → 不符","社招标岗需自己盯，公开信息少","宝山通勤距离需评估"],
+next:"盯官网/公众号社招标务岗；也可投宝武其他采购/供应链岗"
+},
+{
+id:"pc12",company:"欧冶云商",entity:"欧冶云商股份有限公司（中国宝武智慧服务业旗舰，产业互联网平台）",natureType:"央企",tier:"二级/一级子公司",region:"上海/全国",city:"上海宝山（漠河路）",
+role:"物流管理类/产品数据运营类/信息化管理类（历史校招批次多）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["供应链物流","数字化AI","运营商务"],jlevel:"J-C",fit:"中高",major:"相关专业/相关",
+majorNote:"物流类：物流管理、供应链管理、交通运输等；产品/数据运营类：统计学、数据分析、供应链管理、物流工程等",
+access:{届别:"待确认",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"2027 届校招为主（应届）；社招通道常年",gateType:"届别",
+salary:"上海应届 15 万起（历史校招口径）；五险一金+企业年金+员工持股",
+deadline:"社招常年（HR 邮箱 oyzhaopin@ouyeel.com）",rstate:"长期滚动",
+evidence:"A",channel:"官方招聘邮箱 oyzhaopin@ouyeel.com",url:"https://www.ouyeel.com",
+strengths:[
+"智慧供应链平台，物流/供应链职能对口度高",
+"历史校招起薪 15 万+，待遇好",
+"上海宝山+全国网点",
+"你的 AI 工具能力在「产品/数据运营」方向是加分项"
+],
+risks:["历届校招主要面向应届（27 届），2025 届需走社招","社招通常要求 1-3 年","平台型公司，节奏可能快于传统国企"],
+next:"直接投社招简历到官方邮箱，同时问「是否有应届/往届不限经验岗位」"
+},
+{
+id:"pc13",company:"杭钢集团",entity:"杭州钢铁集团有限公司（浙江省属国企，世界 500 强）→杭钢国贸/东菱商贸/紫达物流等",natureType:"省属国企",tier:"集团/二级子公司",region:"浙江",city:"杭州/宁波/嘉兴",
+role:"业务员/仓储经理/单证员（2026 届校招 150+ 岗）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"待确认",ability:["供应链物流","单证贸易","采购招采"],jlevel:"J-C",fit:"中",major:"专业目录不含",
+majorNote:"业务员要国际贸易/市场营销/金融/冶金等；仓储经理要市场营销/物流管理/金融学",
+access:{届别:"明确不符合",专业:"专业目录不含",经验:"无要求",英语:"未知",性质:"部分冲突",薪资:"未知",学历:"达标"},
+gate:"2026 届校招已过（管培生要硕士+双一流）；2027 届待启动",gateType:"届别",
+salary:"五险一金+企业年金+补充医疗；管培生本科 15 万起",
+deadline:"2027 届待启动",rstate:"即将发布",
+evidence:"A",channel:"集团官网 hzsteel.com 招聘公告",url:"https://www.hzsteel.com",
+strengths:[
+"省属大型国企，子公司多（36 家一级企业）",
+"「现代流通」板块＝大宗贸易+智慧供应链，与你方向相关",
+"宁波紫达物流等子公司在港口城市",
+"招聘公告专业目录详尽，可精准核验"
+],
+risks:["❌ 2027 届","业务员工资口径多与冶金/贸易相关，采购类岗少","校招岗位多在生产/技术口，你的机会在流通板块子公司"],
+next:"盯 2027 届校招公告（官网 hzsteel.com），只投「现代流通」板块的岗位"
+},
+{
+id:"pc14",company:"东方国际（集团）",entity:"东方国际（集团）有限公司（上海市属国企，纺织服装外贸+供应链服务）→上海利泰进出口等",natureType:"市属国企",tier:"二级/子公司",region:"上海",city:"上海长宁/杨浦",
+role:"管培生（物流/国贸/供应链）、采购跟单",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:false,sales:"无",ability:["单证贸易","供应链物流","运营商务"],jlevel:"J-C",fit:"中",major:"相关专业/相关",
+majorNote:"「物流/国贸/供应链相关专业」；联泰控股管培生写「服装设计与工程/纺织工程/国际贸易/供应链管理等相关专业优先」",
+access:{届别:"待确认",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"已知线索多来自残疾人专场/定向招聘；常规批次需自行寻找",gateType:"渠道",
+salary:"未公开→待核（联泰培养期月薪 $700-1000 为海外岗口径，国内不明）",
+deadline:"常规批次待观察",rstate:"长期滚动",
+evidence:"C",channel:"51job/官网，HR 邮箱待找",url:"https://www.orientint.com",
+strengths:[
+"上海外贸龙头，供应链服务为核心主业之一",
+"利泰进出口管培生只要求大专+，且「应届毕业生或 1 年内经验均可投递」",
+"与你的外贸单证经历最贴近的市属国企之一"
+],
+risks:["已知在招线索来自特殊专场（可能已结束）","联泰是海外（柬埔寨）岗位，需谨慎","采购跟单要求 3 年经验"],
+next:"盯官网+51job 常规批次，优先上海利泰（长宁）"
+},
+{
+id:"pc15",company:"中储股份（南京/其他）",entity:"中储发展股份有限公司（诚通控股→中国物流集团，600787）",natureType:"央企",tier:"二级公司",region:"江苏/上海/全国",city:"南京等",
+role:"大数据平台架构师/AI 方向产品经理（社招）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["数字化AI","运营商务"],jlevel:"J-C",fit:"中",major:"专业目录不含",
+majorNote:"要计算机/统计/工科 5-10 年经验",
+access:{届别:"不适用",专业:"专业目录不含",经验:"明显不足",英语:"达标",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"5-10 年经验硬门槛",gateType:"经验",
+salary:"南京大数据岗 3-4 万/月（谈职数据）",
+deadline:"社招常年",rstate:"长期滚动",
+evidence:"C",channel:"谈职/猎聘等平台",url:"http://www.cmstd.com.cn",
+strengths:["你的 AI 工具能力方向对口（AI 产品/数据运营）","央企平台","但需 5 年经验"],
+risks:["❌ 5-10 年经验，你明显不足","与你的采购/物流主线偏离"],
+next:"不投；但可把「AI 应用于业务」作为差异化能力写进简历"
+},
+{
+id:"pc16",company:"中国中化/中粮贸易",entity:"中粮贸易有限公司（中粮集团二级，沿江大区覆盖江苏浙江安徽）/中国中化（专营）",natureType:"央企",tier:"二级/区域公司",region:"江苏/浙江/全国",city:"南京/上海等",
+role:"物流管理岗/仓储保管岗/运营分析岗/采购执行（中粮体系）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["供应链物流","采购招采","运营商务"],jlevel:"J-C",fit:"中高",major:"相关专业/相关",
+majorNote:"物流类：物流管理、供应链管理、物资管理、管理科学与工程等；综合类：国际贸易、财务、工商管理等",
+access:{届别:"待确认",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"2026 届夏招已过；2027 届待启动",gateType:"届别",
+salary:"六险二金；中粮「优粮生」本科首年约 16 万",
+deadline:"2027 届待启动",rstate:"即将发布",
+evidence:"A",channel:"官方校招 campus.51job.com/cofco",url:"https://campus.51job.com/cofco",
+strengths:[
+"中粮体系覆盖江苏浙江，专业「等相关」口径，物流/采购岗多",
+"央企六险二金，待遇稳",
+"「采购执行」被明确列为招聘专业方向之一"
+],
+risks:["❌ 2027 届（夏招主要面向应届）","粮食贸易行业，工作节奏与场景较固定","上海总部岗可能要求较高学历"],
+next:"盯 2027 届校招（每年 10 月前后启动），投沿江大区（江苏浙江）的物流/采购岗"
+},
+
+/* ================= J-D 明确排除 ================= */
+{
+id:"pd01",company:"中储股份·仓库管理员",entity:"中储发展股份有限公司上海地区事业部（临港库/奉贤库）",natureType:"央企",tier:"地区事业部",region:"上海",city:"上海临港/奉贤",
+role:"仓库管理员（期货交割库）",payok:false,salaryTier:"C",salaryTier:"C",welfareGood:true,sales:"无",ability:["供应链物流"],jlevel:"J-D",fit:"中",major:"专业不限",
+majorNote:"专业不限，专科及以上",
+access:{届别:"不适用",专业:"专业不限",经验:"无要求",英语:"未知",性质:"明显冲突",薪资:"未知",学历:"达标"},
+gate:"❌ 岗位原文「该岗位不定时工作制」+ 库区现场作业（验收/堆码/翻桩调位/监督装卸）",gateType:"性质",
+salary:"6–10K；五险二金+企业年金",
+deadline:"在招",rstate:"在招",
+evidence:"C",channel:"智联/全职网企业账号",url:"https://m.zhaopin.com",
+strengths:["专业不限、经验不限、五险二金","门槛确实低"],
+risks:["❌ 长期库区现场 + 不定时工作制 → 直接命中你排斥的「工厂一线/长期现场」硬条件","职业路径偏仓储现场，与你「城市办公室」目标冲突"],
+next:"不投。若未来 desperate 再考虑，但与你明确的硬条件冲突"
+},
+{
+id:"pd02",company:"上海地铁第四运营",entity:"上海地铁第四运营有限公司（申通地铁下属）",natureType:"市属国企",tier:"三级/运营公司",region:"上海",city:"上海（6/8/12/14/22号线沿线）",
+role:"多职能队员（列车检查/驾驶/乘客服务）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["综合管理"],jlevel:"J-D",fit:"低",major:"待核",
+majorNote:"理工类相关专业，2026 届全日制本科",
+access:{届别:"明确不符合",专业:"待核",经验:"无要求",英语:"未知",性质:"明显冲突",薪资:"未知",学历:"达标"},
+gate:"❌ 2026 届 + 翻班制 + 驾驶 + 居住地须靠近指定线路",gateType:"届别+性质",
+salary:"未公开→待核",
+deadline:"2026 届部分批次已过",rstate:"已截止",
+evidence:"A",channel:"官方公众号「上海地铁招聘」",url:"https://www.shmetro.com",
+strengths:["上海市属国企"],
+risks:["❌ 翻班制+驾驶+居住地限制，三重硬冲突","专业与经历不匹配"],
+next:"不投"
+},
+{
+id:"pd03",company:"南京地铁运营公司",entity:"南京地铁运营有限责任公司（南京市属）",natureType:"市属国企",tier:"运营公司",region:"江苏",city:"南京",
+role:"副职行车调度/车辆维修/信号巡检/探伤巡检/变电接触网维护",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["综合管理","项目协调"],jlevel:"J-D",fit:"低",major:"专业目录不含",
+majorNote:"交通运输（轨道方向）、铁道机车车辆、电气、供用电技术等",
+access:{届别:"明确不符合",专业:"专业目录不含",经验:"无要求",英语:"未知",性质:"明显冲突",薪资:"未知",学历:"达标"},
+gate:"❌ 2026 届 + 一线检修/巡检 + 夜班",gateType:"届别+性质",
+salary:"未公开→待核",
+deadline:"2026 春季已过",rstate:"已截止",
+evidence:"A",channel:"官网 zhaopin.njmetro.com.cn",url:"https://zhaopin.njmetro.com.cn/",
+strengths:["南京市属国企"],
+risks:["❌ 夜班/翻班 + 检修工一线","你的专业与岗位不符","站务类岗位也限 2026 届"],
+next:"不投"
+},
+{
+id:"pd04",company:"中铁二十四局",entity:"中铁二十四局集团有限公司（中国铁建二级，总部上海）→上海建设投资有限公司",natureType:"央企",tier:"二级/子公司",region:"上海/华东",city:"上海（嘉定/杨浦）",
+role:"物资设备岗/工程技术岗/设备物资（管理）岗",payok:true,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["采购招采","供应链物流","项目协调"],jlevel:"J-D",fit:"中",major:"明确列我专业",
+majorNote:"⚠️ 工程技术类明确列「道路桥梁与渡河工程」——专业完全对口，但岗位在项目现场",
+access:{届别:"明确不符合",专业:"明确列我专业",经验:"无要求",英语:"达标",性质:"明显冲突",薪资:"未知",学历:"达标"},
+gate:"❌ 项目施工现场（物资设备岗＝项目现场设备物资管理）",gateType:"性质",
+salary:"新员工平均年收入 10-14 万；五险二金",
+deadline:"2026 届春招已过",rstate:"已截止",
+evidence:"A",channel:"官方网申 zhaopin.zt24j.com",url:"https://zhaopin.zt24j.com",
+strengths:[
+"⚠️ 专业是全池子里最对口的之一：招聘专业明确写「道路桥梁与渡河工程」",
+"总部在上海，待遇中等偏上",
+"可惜：岗位性质与你的硬条件直接冲突"
+],
+risks:["❌ 项目现场/驻项目部 → 命中你排斥的「长期施工现场」","❌ 2026 届","施工企业轮岗与地点不稳定"],
+next:"不投。这条记录保留为「专业最对口但性质不可接受」的典型样本"
+},
+{
+id:"pd05",company:"电建路桥集团",entity:"中电建路桥集团有限公司（中国电建直管平台，注册资本 90 亿）",natureType:"央企",tier:"二级/区域平台",region:"浙江/华东",city:"杭州（华东区域总部覆盖浙江福建上海）",
+role:"工程管理岗（土木方向）/成本合约岗/资产运营岗",payok:true,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["项目协调","采购招采"],jlevel:"J-D",fit:"中",major:"明确列我专业",
+majorNote:"工程管理岗（土木方向）：土木工程、土木水利、智能建造等 → 道桥对口",
+access:{届别:"明确不符合",专业:"明确列我专业",经验:"无要求",英语:"达标",性质:"明显冲突",薪资:"达标",学历:"达标"},
+gate:"❌ 项目驻场（投资建设类企业，人员常驻项目）",gateType:"性质",
+salary:"八险二金+项目补贴+集体宿舍",
+deadline:"2026 届已过",rstate:"已截止",
+evidence:"A",channel:"官方网申 zhaopin.powerchina.cn",url:"https://zhaopin.powerchina.cn",
+strengths:["专业对口（土木方向）","华东区域总部在浙沪","待遇好（八险二金）"],
+risks:["❌ 项目驻场/长周期建设施工","❌ 2026 届","投资类工程企业，现场属性强"],
+next:"不投"
+},
+{
+id:"pd06",company:"国药控股分销中心",entity:"国药控股分销中心有限公司（国药集团二级，上海黄浦）",natureType:"央企",tier:"二级公司",region:"上海",city:"上海黄浦",
+role:"采购/客户专员（校招）",payok:false,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["采购招采","供应链物流"],jlevel:"J-D",fit:"中",major:"专业目录不含",
+majorNote:"要求医药卫生全类、化工与制药类、生物医学工程类等（药学相关专业优先）",
+access:{届别:"待确认",专业:"专业目录不含",经验:"无要求",英语:"未知",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"❌ 医药类强专业壁垒（药学专业不可替代）",gateType:"专业",
+salary:"11 万/年（应届生求职网）",
+deadline:"2026-12-14 报名截止",rstate:"在招",
+evidence:"A",channel:"国聘 iguopin.com",url:"https://www.iguopin.com",
+strengths:["上海黄浦，医药分销龙头，采购岗真实存在","薪资 11 万/年"],
+risks:["❌ 医药专业目录不含道桥 → 强专业壁垒","你无药学背景，HR 初筛即淘汰"],
+next:"不投（如未来想进医药行业，需重新考虑对口职能如商务/运营）"
+},
+{
+id:"pd07",company:"东航·国际化储备人才",entity:"中国东方航空股份有限公司/东方航空物流（国际化储备人才项目）",natureType:"央企",tier:"二级/项目",region:"上海",city:"上海",
+role:"国际化物流/营销服务储备人才（第三期）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["单证贸易","运营商务"],jlevel:"J-D",fit:"中",major:"专业不限",
+majorNote:"专业不限",
+access:{届别:"明确不符合",专业:"专业不限",经验:"无要求",英语:"明显不足",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"❌ 外语硬门槛：需日语 N1/韩语 TOPIK 5-6/德法俄等专业八级 C1-C2/英语专八或雅思 6.5+",gateType:"语言",
+salary:"16 万/年（国际化方向更高）",
+deadline:"2026-11-30 截止",rstate:"在招",
+evidence:"A",channel:"官方招聘网 job.ceair.com",url:"https://job.ceair.com",
+strengths:["专业不限","三年定向培养，成长路径清晰"],
+risks:["❌ 外语硬证书门槛，CET-6 不满足","❌ 仅 2027 届","培养后定岗为境内外分公司总经理助理/货运经理，需外派可能"],
+next:"不投这一支。但东航物流的「常规储备人才（单证处理）」是另一支，可投（见 pc06）"
+},
+{
+id:"pd08",company:"徐矿集团",entity:"徐州矿务集团有限公司（江苏省属国企）",natureType:"省属国企",tier:"集团本部",region:"江苏",city:"徐州",
+role:"采矿安全岗/机电控制岗/工商管理岗等（2026 秋季专场）",payok:false,salaryTier:"D",salaryTier:"D",welfareGood:true,sales:"无",ability:["综合管理"],jlevel:"J-D",fit:"低",major:"专业目录不含",
+majorNote:"采矿安全类/机电控制类/工商管理类等",
+access:{届别:"待确认",专业:"专业目录不含",经验:"无要求",英语:"未知",性质:"部分冲突",薪资:"低于偏好",学历:"达标"},
+gate:"❌ 薪资 6000 元/月，低于你的 7–8K 期望下限",gateType:"薪资",
+salary:"6000 元/月（省人社厅专场公告）",
+deadline:"2026 秋季专场",rstate:"已截止",
+evidence:"B",channel:"省人社厅专场公告",url:"https://jshrss.jiangsu.gov.cn",
+strengths:["江苏省属国企，岗位多（63+51+36人）"],
+risks:["❌ 6000 元/月明确低于期望","徐州非目标城市（苏北）","岗位多为采矿/机电一线","工商管理岗仅 10 人"],
+next:"不投"
+},
+{
+id:"pd09",company:"中石油系",entity:"昆仑物流/中国石油物资（中国石油集团，2026 秋招）",natureType:"央企",tier:"二级公司",region:"全国",city:"乌鲁木齐/北京等",
+role:"物流/采购/物资类（昆仑物流 55 人、中国石油物资 25 人）",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["供应链物流","采购招采"],jlevel:"J-D",fit:"中",major:"相关专业/相关",
+majorNote:"专业范围以招聘计划表为准；本科毕业生的大学英语四级考试成绩不低于 425 分",
+access:{届别:"明确不符合",专业:"相关",经验:"无要求",英语:"达标",性质:"部分冲突",薪资:"达标",学历:"达标"},
+gate:"❌ 届别只放宽到 2026 届（你 2025 届）；且多数岗位在新疆/野外",gateType:"届别+性质",
+salary:"中石油统一薪酬；六险二金",
+deadline:"2026-10-15 截止",rstate:"已截止",
+evidence:"A",channel:"中石油招聘平台 zhaopin.cnpc.com.cn",url:"https://zhaopin.cnpc.com.cn",
+strengths:[
+"⚠️ 有利条件齐：年龄本科≤26 岁（你 24）✅、CET-4≥425（你 CET-6）✅、六险二金",
+"但届别只到 2026 届，你差一届 → 2026-2027 窗口对你关闭"
+],
+risks:["❌ 届别差一年（只收 2026 届未落实工作单位）","❌ 昆仑物流总部在乌鲁木齐，业务涉及野外/高危作业","中石油物资在北京，需与你的地域偏好冲突"],
+next:"不投。如未来中石油放开门槛（招 2025 届未就业），再重评"
+},
+
+/* ===== 第五轮增量：来自用户视频解析 480 行 + 官方核验 2026-10-05 ===== */
+{
+id:"pe01",company:"江苏省铁路集团",entity:"江苏省铁路集团有限公司（江苏省属特大型国企，注册资本1000亿；旗下江苏高速铁路有限公司）",natureType:"省属国企",tier:"集团/所属企业",region:"江苏",city:"南京/徐州",
+role:"行政管理岗（校招）",payok:false,salaryTier:"C",salaryTier:"C",welfareGood:true,sales:"无",ability:["综合管理","运营商务"],jlevel:"J-B",fit:"中高",major:"待核",
+majorNote:"集团层面专业目录含「土木工程与土木水利、交通运输工程、工商管理、管理科学与工程」等；行政管理岗JD未列专业硬门槛（部分技术岗要硕士）",
+access:{届别:"待确认",专业:"相关",经验:"无要求",英语:"达标",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"届别：公告写「校园招聘面向国内外应届高校毕业生」，未写放宽往届 → 需确认 2025 届（部分岗位页写「应届生与往届生均可」）",gateType:"届别",
+salary:"省属国企制度；校招本科约 10 万/年（第三方参考值，待核）",
+deadline:"2026-10-07 23:59（还剩 2 天）",rstate:"在招",
+evidence:"B",channel:"官网报名 jsrg.zhaopin.com",url:"https://jsrg.zhaopin.com",
+strengths:[
+"🔥 窗口极紧：10 月 7 日截止，比江苏港口只早 13 天",
+"行政管理岗＝综合管理岗（起草文件/工作计划/会议纪要/活动组织），办公室岗，不倒班不驻场",
+"官方报名独立于铁路局（不占用 rczp.china-railway 机会），两条路并行",
+"江苏省属特大型国企，连续五年全省综合考核第一等次",
+"部分岗位页明确写「应届生与往届生均可」→ 有 2025 届可能性的证据"
+],
+risks:[
+"⚠️ 公告只写「应届」，未明文写 2025 届未就业可报 → 唯一卡点，必须问 HR",
+"每人限报 1 个岗位",
+"集团多数技术岗要硕士，本科可投的主要是行政管理/财务类",
+"徐州岗位属苏北，需评估地域接受度"
+],
+next:"今天就在 jsrg.zhaopin.com 投「行政管理岗-校招」，投完立即找 HR 确认届别口径；这是本周第二个必须动作的窗口"
+},
+{
+id:"pe02",company:"浙商中拓",entity:"浙商中拓集团股份有限公司（000906，浙交投旗下国有控股上市公司，世界500强第309位，60家子公司）",natureType:"省属国企",tier:"二级/上市公司",region:"浙江",city:"杭州萧山（部分岗上海/合肥/武汉/重庆）",
+role:"大宗商品业务/商务内勤/物流管理/管培生（2027届校招）",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"待确认",ability:["供应链物流","采购招采","运营商务","单证贸易"],jlevel:"J-C",fit:"高",major:"专业不限",
+majorNote:"⭐ 多个岗位明确写「专业不限」：有色事业部运管中心、新能源事业部运管中心、区域发展事业部、益光国际本级；要求「国际贸易、国际商务、经营管理、市场营销、财务审计、金融经济、法律等相关专业优先」",
+access:{届别:"明确不符合",专业:"专业不限",经验:"无要求",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"❌ 仅 2027 届（差一届）；但「专业不限」是全池子最宽口径之一",gateType:"届别",
+salary:"五险一金+年度体检+员工食堂+防寒防暑费+房补餐补+疗休养",
+deadline:"2027 届校招进行中（2026-09-14 启动）",rstate:"在招",
+evidence:"A",channel:"官方 dhr.cncico.com + 公众号",url:"https://dhr.cncico.com:18443/noticeDetail/263842349254303164",
+strengths:[
+"⭐ 「专业不限」岗位最多的一家：4 个运管中心明确开放，道桥可直接投",
+"⚠️ 岗位性质与你高度对口：大宗商品供应链、物流地网＋数字天网，与你的仓储/订单/比价经验同构",
+"有「常驻地上海」的岗位（钢材事业部/有色事业部运管中心）",
+"社招「招到即止」常年开放（zhaopin@zmd.com.cn）→ 1 年经验后可打",
+"持驾照者优先（你有驾驶证）——被低估的加分项",
+"世界 500 强子公司，平台好"
+],
+risks:[
+"❌ 2027 届校招，当前不可投",
+"部分岗位要求「能接受高频出差/外派」→ 面试要问清出差频率",
+"大宗商品行业有周期波动",
+"杭州萧山为主要工作地（非市中心，通勤需评估）"
+],
+next:"不投校招；①立刻订阅其社招（招到即止，zhaopin@zmd.com.cn）②官网订阅 2027 届 ③简历突出「持驾照+仓储实操+比价降本」"
+},
+{
+id:"pe03",company:"浦发集团（上海浦东发展集团）",entity:"上海浦东发展（集团）有限公司（上海市属国有独资，注册资本39.9亿，总资产2155亿，旗下32家企业）",natureType:"市属国企",tier:"集团本部/子公司",region:"上海",city:"上海（东绣路1229号）",
+role:"子公司校招岗（市政养护与项目管理类/综合管理类/产业招商与研究类）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:false,sales:"无",ability:["项目协调","综合管理","运营商务"],jlevel:"J-C",fit:"中高",major:"专业不限",
+majorNote:"招聘专业字段标注「不限」；子公司校招方向含数字化与信息技术类、产业招商与研究类、工程技术与设计类、市政养护与项目管理类、综合管理类，「部分岗位本科可投递」",
+access:{届别:"明确不符合",专业:"专业不限",经验:"无要求",英语:"未知",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"❌ 2027 届；集团管培生要硕士+计算机/机械/自动化/数学/统计",gateType:"届别",
+salary:"未公开→待核",
+deadline:"秋季招聘 2026 年 9 月-12 月（网申 9 月下旬启动）",rstate:"在招",
+evidence:"B",channel:"官方投递邮箱 joinus@shpdg.com",url:"https://www.shpdg.com",
+strengths:[
+"上海市属国企，工程建设全产业链＋城市运维主业，与你道桥专业有工程侧交集",
+"「市政养护与项目管理类」方向＝城市办公室岗，不倒班不驻场",
+"招聘专业「不限」+ 部分岗位本科可投，专业口径很宽",
+"集团管培生培养方向是「数字化项目管理/数据治理」——可作差异化叙事",
+"东绣路 1229 号（自贸区），办公条件好"
+],
+risks:["❌ 2027 届","集团管培生要硕士且限计算机/机械/自动化/数学/统计 → 只能投子公司岗","市政养护岗可能涉及现场巡检（需甄别）"],
+next:"盯 2027 届子公司校招（春招 2027 年 1-6 月还有一批）；可先发邮件 joinus@shpdg.com 问「是否接受往届/社会招聘」"
+},
+{
+id:"pe04",company:"申能集团 / 上海燃气",entity:"申能（集团）有限公司（上海市国资委独资，直属申能股份/上海燃气/上海证券/上海电缆/申能保险等）",natureType:"市属国企",tier:"集团本部/成员企业",region:"上海",city:"上海（闵行虹井路159号）",
+role:"集团管培生（部分岗位不限专业）/上海燃气2027届校招",payok:false,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["综合管理","运营商务"],jlevel:"J-C",fit:"中",major:"专业不限",
+majorNote:"申能集团招聘专业「…等相关专业，部分岗位不限专业」；上海燃气为申能成员企业",
+access:{届别:"明确不符合",专业:"专业不限",经验:"无要求",英语:"未知",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"❌ 2027 届",gateType:"届别",
+salary:"集团管培生 10000-15000（暨大就业页原文）；申能股份技术岗年薪 10-22 万",
+deadline:"上海燃气校招 2026-09-21～2026-10-19",rstate:"在招",
+evidence:"B",channel:"官方 shenergy.zhiye.com",url:"https://shenergy.zhiye.com/custom/campus",
+strengths:["上海市属能源保障主力军，稳定度高","公告写「部分岗位不限专业」","上海燃气校招窗口 10-19 结束，时间明确","官方直投系统，投递规范"],
+risks:["❌ 2027 届","能源/燃气行业专业以能源动力、电气为主 → 你的道桥+供应链在此类集团对口度低","上海燃气主业是燃气运营，与采购供应链关联弱"],
+next:"低优先。投上海燃气不划算（专业不对口+届别不符）；可关注申能「部分岗位不限专业」的管培生，简历走「城市能源保障+数字化」叙事"
+},
+{
+id:"pe05",company:"上海交易集团",entity:"上海交易集团有限公司（上海市属国有独资，金融要素市场运营）",natureType:"市属国企",tier:"集团本部",region:"上海",city:"上海",
+role:"2027届校园招聘（金融要素交易/运营支持方向）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:false,sales:"无",ability:["运营商务","综合管理","数字化AI"],jlevel:"J-C",fit:"中",major:"待核",
+majorNote:"待核（视频来源标注「上海交易集团2027」，专业口径未公开）",
+access:{届别:"明确不符合",专业:"待核",经验:"无要求",英语:"达标",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"❌ 2027 届；专业口径待核",gateType:"届别",
+salary:"未公开→待核",
+deadline:"2027 届校招（2026-09-29 发布信息）",rstate:"在招",
+evidence:"D",channel:"视频解析（来源待官方复核）",url:"https://www.shex.com",
+strengths:["上海市属金融基础设施平台，稳定性强","运营支持/交易运营岗与你的数据/流程能力有交集","英语在金融交易场景是刚需，你的 CET-6 达标"],
+risks:["❌ 2027 届","专业口径未公开 → 需查","金融行业通常偏好金融/经济/统计专业","证据仅来自视频解析（Evidence-D），必须官方复核"],
+next:"查官网确认专业口径与届别；金融运营岗可作为「数字化运营」方向备选"
+},
+{
+id:"pe06",company:"国网浙江省电力",entity:"国网浙江省电力有限公司（国家电网有限公司直属，浙江电力主营企业）",natureType:"央企",tier:"二级/省公司",region:"浙江",city:"杭州及省内",
+role:"2027年高校毕业生校园招聘",payok:false,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["数字化AI","综合管理"],jlevel:"J-C",fit:"中",major:"待核",
+majorNote:"待核（国家电网专业目录以电工类为主，另有计算机/通信/管理类）",
+access:{届别:"明确不符合",专业:"待核",经验:"无要求",英语:"达标",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"❌ 2027 届；且国家电网专业以电气工程类为主",gateType:"届别+专业",
+salary:"国家电网薪酬体系，未公开→待核",
+deadline:"2027 届校招（2026-09-18 发布）",rstate:"在招",
+evidence:"C",channel:"国家电网招聘平台（需查）",url:"https://zhaopin.sgcc.com.cn",
+strengths:["浙江省电力核心企业，稳定性与福利在省内第一梯队","数字化/管理类岗位存在非电工口","AI 工具能力在数字化方向可讲"],
+risks:["❌ 2027 届","专业目录以电气工程类为主 → 道桥不在列","国家电网一年一批，错过等一年","层级极封闭，非电工口名额极少"],
+next:"低优先。作为 E-A 级长期跟踪企业，每年 9-10 月看一次；不要为它投入简历成本"
+},
+{
+id:"pe07",company:"上海浦东软件园",entity:"上海浦东软件园（京能集团旗下京能电力控股子公司，上海市属）",natureType:"市属国企",tier:"二级/子公司",region:"上海",city:"上海浦东",
+role:"2027届校招启动（园区运营/科创服务方向）",payok:false,salaryTier:"U",salaryTier:"U",welfareGood:false,sales:"无",ability:["综合管理","数字化AI"],jlevel:"J-C",fit:"中",major:"待核",
+majorNote:"待核（园区运营类通常不限专业或偏管理/理工）",
+access:{届别:"明确不符合",专业:"待核",经验:"无要求",英语:"未知",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"❌ 2027 届；专业口径待核",gateType:"届别",
+salary:"未公开→待核",
+deadline:"2027 届校招（2026-09-14 发布）",rstate:"在招",
+evidence:"D",channel:"视频解析（来源待官方复核）",url:"https://www.spspark.com",
+strengths:["上海浦东园区运营，办公环境好","园区服务/招商/运营岗与供应链实践有间接交集","浦东是科技集聚区，职业发展路径宽"],
+risks:["❌ 2027 届","证据仅来自视频（Evidence-D）","园区运营岗可能偏招商/物业，与采购供应链关联弱"],
+next:"查官方确认；作为「上海办公楼内非现场岗」方向储备，优先级低"
+},
+{
+id:"pe08",company:"上海国茂控股 / 上海高盟国际贸易",entity:"上海高盟国际贸易有限公司（上海国茂控股全资子公司，2025年11月组建，注册资本130亿，大宗商品贸易投资平台）",natureType:"市属国企",tier:"二级/子公司",region:"上海",city:"上海普陀区",
+role:"管理培训生（6-8人）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:false,sales:"无",ability:["供应链物流","采购招采","运营商务"],jlevel:"J-D",fit:"中高",major:"专业不限",
+majorNote:"✅ 专业不限（仅要求硕士及以上）",
+access:{届别:"明确不符合",专业:"专业不限",经验:"无要求",英语:"达标",性质:"符合",薪资:"未知",学历:"不达标"},
+gate:"❌❌ 硬门槛：全日制硕士研究生及以上（本科直接被卡）＋ 2027 届（差一届）",gateType:"学历+届别",
+salary:"未公开→待核",
+deadline:"2026-10-25 截止",rstate:"在招",
+evidence:"A",channel:"官方 gomount.com",url:"https://gomount.com/recruitment?type=campus",
+strengths:["业务方向与你高度对口：大宗商品贸易＋供应链管理","2025 年 11 月新组建，注册资本 130 亿，平台新机会多","专业不限，只卡学历","上海普陀区，工作地点好"],
+risks:["❌ 硕士硬门槛 → 本科直接出局，不投（不因业务对口而妥协学历门槛）","❌ 2027 届","要求英语听说读写流利"],
+next:"不投（学历+届别双硬冲突）。记录用途：新平台、贸易方向，2027 届时关注是否开放本科"
+},
+{
+id:"pe09",company:"无锡地铁集团",entity:"无锡地铁集团有限公司（无锡市属大型国企，运营里程142公里，员工8000+，总资产超千亿）",natureType:"市属国企",tier:"集团/运营公司",region:"江苏",city:"无锡（惠山区/梁溪区）",
+role:"轨道技术管理/项目管理/站务技术管理等（2027届校招）",payok:false,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["项目协调","综合管理"],jlevel:"J-D",fit:"中",major:"相关",
+majorNote:"轨道技术管理：道路与铁道工程、交通运输工程、土木工程等相关专业 → 道桥对口；无锡地铁科技服务「项目管理」：物业管理、项目管理、工程管理、管理科学与工程、市场营销、企业管理等相关专业",
+access:{届别:"明确不符合",专业:"相关",经验:"无要求",英语:"未知",性质:"部分冲突",薪资:"达标",学历:"达标"},
+gate:"❌ 届别只放宽到 2026 届未就业（你 2025 届不合规）＋ 运营岗含值班站长等倒班类",gateType:"届别+性质",
+salary:"固定薪酬+绩效+五险一金+企业年金+人才公寓；同步享太湖人才计划（租房/购房/生活补贴）",
+deadline:"招满即止（2026-09-24 启动）",rstate:"长期滚动",
+evidence:"A",channel:"官方 wxmetro.zhaopin.com",url:"https://wxmetro.zhaopin.com",
+strengths:["轨道技术管理岗专业明确含「道路与铁道工程、土木工程」→ 专业对口","无锡市太湖人才计划：租房/购房/生活补贴/人才落户，轨交系统里突出","项目管理岗偏办公室","招满即止＝长期挂着，可盯"],
+risks:["❌ 届别只到 2026 届未就业 → 你不合规","客运服务类（值班站长/站务技术管理）有倒班/现场性质","运营检修类（AFC/综合监控运维）是一线岗"],
+next:"不投（届别不合规）。仅在无锡太湖人才政策有吸引力时，作为地域备选记录"
+},
+
+/* ===== 第六轮：架构树下钻新增（2026-10-05） ===== */
+{
+id:"pf01",company:"中化国际（控股）",entity:"中化国际(控股)股份有限公司（中国中化控股二级子公司，000970，总部上海浦东世纪大道88号金茂大厦）",natureType:"央企",tier:"二级公司",region:"上海/北京/江苏",city:"上海浦东（总部）/北京/南京/南通",
+role:"化工品交易员/分析师、战略与交易分析员（储备交易员）、航运物流岗",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["采购招采","供应链物流","运营商务","数字化AI"],jlevel:"J-B",fit:"高",major:"相关专业/相关",
+majorNote:"⭐ 化工品交易员/分析师任职要求原文：「具有商业、金融、航运或 STEM 专业的教育背景（本科及以上）」→ STEM 覆盖工程类，道桥可对冲；战略与交易分析员要金融/能源经济/数学/管理（硕士优先）",
+access:{届别:"明确符合",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"分岗位：①交易员/分析师（STEM/商业/金融/航运，本科）门槛较宽；②战略与交易分析员要 2026 届且金融/经济/数学/管理类专业 → 你不符",gateType:"",
+salary:"集团职能类 8K-15K/月；战略与交易分析员 9K-13K·13薪；航运物流岗 10-20K",
+deadline:"化工品交易员/分析师 2026-10-10 截止；社招常年",rstate:"在招",
+evidence:"A",channel:"中国中化官方招聘平台 sinochem.hotjob.cn",url:"https://sinochem.hotjob.cn/",
+strengths:[
+"🔥🔥 六轮以来最值：官方口径明文「主要面向 2026 届毕业生，**部分岗位也接受 2025 届往届生**」——江浙沪央国企里极少数为 2025 届开口的企业",
+"🔥 岗位是交易/供应链核心商务岗，不是操作工：职责含「寻找供应链和贸易优化机会，执行从市场发现、交易发起到最终货物交付的实物交易」",
+"🔥 专业写「STEM 专业」——STEM 覆盖工程类，你的道路桥梁与渡河工程可对冲（这是全池子里专业口径对你最友好的一条）",
+"平台硬：中国中化是国务院国资委监管央企，员工 21 万人，业务覆盖生命科学/材料/石化/环保等八大领域",
+"总部在上海浦东金茂大厦，工作地点优；另在北京、南京、南通等地有办公点",
+"英语六级以上即可（你有 CET-6），且「良好英语能力是优势」",
+"你的 AI/数据工具能力可对应「Python 数据分析者优先」「市场研究报告撰写」"
+],
+risks:[
+"⚠️ 分岗位差异大：交易员/分析师（STEM/本科）可投；战略与交易分析员（2026届+金融经济数学管理）你不符",
+"⚠️ 交易岗有业绩压力，需抗压、快速节奏（JD 明确要求）",
+"北京岗位为主，上海/江苏分部需确认是否开放交易岗",
+"期货/期权/大宗商品贸易知识需要补（面试会问）",
+"「部分岗位接受 2025 届」需要逐岗在官网确认，不是全岗适用"
+],
+next:"今天就上 sinochem.hotjob.cn 搜索中化国际 2026 届/往届批次，重点找①交易员/分析师②上海/江苏分部岗；投前在简历里把「供应链实践＋数据分析＋AI 工具」放前面"
+},
+{
+id:"pf02",company:"五矿物流（江浙沪分支）",entity:"五矿物流集团有限公司（中国五矿二级）→ 五矿物流江苏/浙江/上海有限公司、五矿龙腾联运(上海)",natureType:"央企",tier:"三级/省级分公司",region:"江苏/浙江/上海",city:"南京/杭州/上海（及各口岸城市）",
+role:"仓储物流/船代货代/供应链管理（存量主体，是否在招需逐一查）",payok:true,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["供应链物流","单证贸易","采购招采"],jlevel:"J-C",fit:"中高",major:"相关专业/相关",
+majorNote:"五矿物流主体多不做校招主渠道，招聘以社招为主；专业多要求物流管理/交通运输/国际经贸等，社招常写「优先」",
+access:{届别:"不适用",专业:"相关",经验:"待核",英语:"有优势",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"招聘状态未知——这些是存量省级分公司，需通过五矿集团招聘平台/各省分公司公众号逐一查",gateType:"",
+salary:"未公开→待核",
+deadline:"未知（滚动）",rstate:"长期滚动",
+evidence:"B",channel:"上交所年报（600058）披露的子公司清单 + 五矿官网",url:"https://www.minmetals.com",
+strengths:[
+"⭐ 架构下钻挖出的全新增量：五矿物流江苏/浙江/上海、五矿龙腾联运(上海)——前五轮从未探到",
+"业务＝仓储物流+船代货代+加工配送，与你的仓储/订单/单证经验直接同构",
+"五矿钢铁上海/杭州/宁波工贸、五矿(南京)国际贸易、五矿浙江国际贸易、五矿镇江进出口——江浙沪共 10 家贸易/物流分支",
+"五矿国际招标有限责任公司＝招标代理岗，招标本质就是采购的另一面，专业最对口",
+"上交所上市公司（600058），信息披露规范，招聘入口可查",
+"杭州/南京/上海/宁波都在你的目标城市内"
+],
+risks:[
+"⚠️ 省级分公司通常不单独校招，招聘入口分散在集团平台",
+"⚠️ 需逐一核查：是否有在招、届别口径、学历要求",
+"仓储/加工配送岗可能含现场作业 → 需甄别是否办公室岗",
+"英语要求在大宗商品国际贸易岗较普遍"
+],
+next:"上五矿官网/招聘平台 + 上交所公告 + 各省分公司公众号逐一查「招聘」关键词；重点查五矿物流(上海)、五矿(南京)国际贸易、五矿浙江国际贸易"
+},
+{
+id:"pf03",company:"电建物资 / 中铁物资 / 中建物资",entity:"中国电建集团物资集团有限公司 / 中铁物资集团有限公司 / 中建物资有限公司（建工/铁路/电力央企级采购招标平台）",natureType:"央企",tier:"二级公司（集团级采购平台）",region:"北京（总部）/全国",city:"北京",
+role:"物资采购/集中采购/招标管理（社招为主）",payok:true,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["采购招采","供应链物流","项目协调"],jlevel:"J-C",fit:"中高",major:"相关专业/相关",
+majorNote:"物资采购岗常要「物资管理/工程管理/土木/工商管理等相关专业」——道桥属土木类；具体口径待各平台官方核验",
+access:{届别:"不适用",专业:"相关",经验:"待核",英语:"有优势",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"招聘状态与届别口径未知（这三家是央企集团级采购平台，值得单独立项核查）",gateType:"",
+salary:"未公开→待核",
+deadline:"未知（滚动/年度招聘）",rstate:"长期滚动",
+evidence:"C",channel:"各集团官网招聘栏目（待逐一核验）",url:"https://www.powerchina.cn",
+strengths:[
+"⭐ 架构下钻的必然产物：建工/铁路/电力三大系统的**集团级物资集采平台**，是「采购」职能最正统的出口",
+"中铁物资是铁路系统物资采购主体，物资设备岗专业常含物流管理/机械",
+"中建物资对应中建系统集中采购，中建电商（pj.ccec.com）是采购数字化入口",
+"电建物资对应电力系统物资集采，与电建路桥的物资岗形成两级通道",
+"三个平台都属央企，稳定性高，且「招标/采购」与你的比价降本、合同台账经验同构"
+],
+risks:[
+"⚠️ 三家均未在本次核验中确认当前招聘状态（Evidence-C，需官方复核）",
+"⚠️ 集团级采购平台多要求 2-5 年经验，你的年限是短板",
+"总部在北京，与江浙沪有距离（出差/派驻需确认）"
+],
+next:"分别查：中国电建 zhaopin.powerchina.cn / 中铁物资 / 中建物资官网招聘页，确认是否有社招在招与年限要求；这类平台是 1 年经验后的主攻方向"
+},
+{
+id:"pf04",company:"中化石油化工贸易 / 中化国际物流",entity:"中国中化控股旗下贸易与物流主体（上海）",natureType:"央企",tier:"三级公司",region:"上海",city:"上海",
+role:"石化贸易/国际物流（待核验招聘状态）",payok:true,salaryTier:"U",salaryTier:"U",welfareGood:true,sales:"无",ability:["采购招采","供应链物流","单证贸易"],jlevel:"J-C",fit:"中高",major:"相关专业/相关",
+majorNote:"中化系贸易物流岗多要「国际贸易/航运物流/英语」等，「相关」口径为主",
+access:{届别:"待确认",专业:"相关",经验:"待核",英语:"有优势",性质:"符合",薪资:"未知",学历:"达标"},
+gate:"招聘状态待核验——通过中化国际官网（sinochem.hotjob.cn）可一并查",gateType:"",
+salary:"未公开→待核",
+deadline:"未知（滚动）",rstate:"长期滚动",
+evidence:"D",channel:"待核（中化国际体系内）",url:"https://sinochem.hotjob.cn/",
+strengths:["与 pf01 同一招聘系统，可一次查全中化系多主体","中化在上海有多个贸易/物流/销售分部","「2025 届往届生」口径可能适用于集团内其他主体"],
+risks:["⚠️ Evidence-D 线索，必须官方复核","贸易岗可能有业绩指标","同集团口径未必逐岗适用"],
+next:"在 sinochem.hotjob.cn 搜索时勾选「全部子公司」，把中化系上海/江苏分部一并纳入视野"
+},
+
+/* ===== 第八轮：按个人硬要求（高薪/福利好/办公室/无销售压力/无一线）重筛后的优质源 ===== */
+{
+id:"pg01",company:"中国邮政·上海市分公司",entity:"中国邮政集团有限公司上海市分公司（国有独资，世界500强第107位，世界邮政第1）",natureType:"央企",tier:"二级/分公司",region:"上海",city:"上海（各区分公司+物流业务分公司+邮区中心）",
+role:"⭐技术岗（土木类/建筑类）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["项目协调","综合管理","技术支持"],jlevel:"J-A",fit:"高",major:"明确列我专业",
+majorNote:"⭐ 上海公司技术岗专业要求原文：「土木类、建筑类、机械类、自动化类、计算机类、安全科学与工程类、管理科学与工程类、邮政类等相关专业」→ 你的道路桥梁与渡河工程属土木类，**直接对口**",
+access:{届别:"明确符合",专业:"明确列我专业",经验:"无要求",英语:"未知",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"无硬门槛（公告明文「2027届应届毕业生，同时面向择业期内毕业生」）",gateType:"none",
+salary:"⭐13-16K/月（湖南财院就业页原文）；八险二金+公积金12%顶格+补充医疗+企业年金+免费工作午餐+高温津贴+劳保用品+年度体检",
+deadline:"2026-10-31 24:00",rstate:"在招",
+evidence:"A",channel:"官方网申 chinapost2027.zhaopin.com（上海公司 comid 见官网）",url:"https://chinapost2027.zhaopin.com/",
+strengths:[
+"🔥🔥 你的四项硬要求全中：薪资高（13-16K/月，超你 7-8K 期望）、福利好（八险二金+公积金12%顶格+企业年金）、办公室（央企办公大楼技术管理岗）、无销售压力、无一线施工",
+"🔥 专业直接对口：上海公司技术岗明确列「土木类、建筑类」，道路桥梁与渡河工程就是土木类——全池子里专业口径最正的央企岗",
+"🔥 公告白纸黑字「普通高等院校2027届应届毕业生（同时面向择业期内毕业生）」——你是择业期内未就业，符合",
+"福利清单在央企里属顶配：八险二金（部分单位八险三金）、公积金按12%最高比例缴、补充住房公积金、企业年金、补充医疗、意外伤害险、重大疾病险",
+"上海公司招聘部门含：市分公司+浦东/黄浦/徐汇/长宁/普陀/静安/虹口/杨浦/闵行/宝山/嘉定/青浦/松江/金山/奉贤/崇明各区公司+物流业务分公司+工程设计研究院+信息技术中心",
+"可同时申请 2 个省公司，每公司 1 个岗位",
+"笔试为行测+专业知识+英语+综合知识+性格测试，可用真题备战"
+],
+risks:[
+"⚠️ 同一单位只能投 1 个岗位 → 优先投「技术岗（土木类）」，专业最对口、竞争者最少",
+"⚠️ 需在全国统一线上笔试（预计 11 月中旬），过网申后要备考",
+"⚠️ 部分省份截止更早（陕西 10-10），上海/江苏是 10-31",
+"技术岗是否需倒班/现场巡检，公告未明 → 面试确认"
+],
+next:"★今天就投上海公司技术岗（https://chinapost2027.zhaopin.com），同时把江苏公司「数据分析岗/生产调度岗」作为第二志愿保底"
+},
+{
+id:"pg02",company:"中国邮政·江苏省分公司",entity:"中国邮政集团有限公司江苏省分公司（下辖13市+56县分公司、2385网点、近3.5万人）",natureType:"央企",tier:"二级/分公司",region:"江苏",city:"南京及江苏各市县",
+role:"数据分析岗 / 生产调度岗 / 邮政业务岗",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["运营商务","数字化AI","供应链物流"],jlevel:"J-A",fit:"中高",major:"相关专业/相关",
+majorNote:"江苏公司校招专业：交通运输(物流)类、金融经济类、财务会计类、营销经贸类、工商管理类、计算机类、自动化类、邮政类等；集团层面「不限专业」",
+access:{届别:"明确符合",专业:"相关",经验:"无要求",英语:"未知",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"无硬门槛（公告明文「2027年应届毕业生，同时面向择业期内毕业生」）",gateType:"none",
+salary:"大专8-12万/本科10-18万/硕士15-25万（省会可达15-25万）；八险三金+职工小家+员工食堂+交通通讯补贴+午餐补贴",
+deadline:"2026-10-31 24:00",rstate:"在招",
+evidence:"A",channel:"官方网申 chinapost2027.zhaopin.com",url:"https://chinapost2027.zhaopin.com/",
+strengths:[
+"🔥 又一个「明文面向择业期内毕业生」的大窗口，待遇福利在央企属顶配（八险三金）",
+"⭐「生产调度岗」是管理协调岗（不是搬运），「数据分析岗」是纯办公室数据岗——都符合你无一线要求",
+"江苏 13 市 56 县，可选城市多（南京/苏州/无锡/南通…）",
+"招录对象宽，专业限制比集团层面更明确，但物流经济类你可用实践对冲",
+"学历门槛宽松：地市分公司/县域网点本科即可稳定报考"
+],
+risks:[
+"⚠️ 避开「金融骨干人才后备」「寄递经营」类——前者可能带网点营销指标，后者可能带一线成分",
+"⚠️ 生产调度岗是否倒班需确认（多数是白班）",
+"笔试为全国统一线上笔试"
+],
+next:"作为上海公司的第二志愿/平行志愿投递（注意：同一家机构只能投1岗，两省公司可各投1个）"
+},
+{
+id:"pg03",company:"中国邮政·集团总部",entity:"中国邮政集团有限公司总部（调度中心/物流事业部/战略部门）",natureType:"央企",tier:"集团本部",region:"北京",city:"北京",
+role:"物流工程类 / 管理类总部岗",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["供应链物流","综合管理","运营商务"],jlevel:"J-C",fit:"中",major:"相关专业/相关",
+majorNote:"集团总部专业：邮政类、交通运输(物流)类、金融经济类、电子商务类、工商管理类、计算机类、财务会计类、法律、中文等",
+access:{届别:"明确符合",专业:"相关",经验:"无要求",英语:"未知",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"总部核心岗多要硕士；且北京总部（非江浙沪）",gateType:"学历+地域",
+salary:"本科10-18万/年；七险二金（部分八险二金）+企业年金",
+deadline:"2026-10-31",rstate:"在招",
+evidence:"A",channel:"官方网申",url:"https://chinapost2027.zhaopin.com/",
+strengths:["集团层面明确「不限专业」，待遇好","总部平台视野高"],
+risks:["⚠️ 总部核心岗要硕士","⚠️ 北京非你的目标城市"],
+next:"低优先。可作为上海/江苏之外的兜底"
+},
+{
+id:"pg04",company:"中远海运集团（待遇标杆）",entity:"中国远洋海运集团有限公司（中央直接管理，2026《财富》世界500强237位）",natureType:"央企",tier:"集团本部",region:"上海/北京",city:"上海/北京",
+role:"本科普通职能岗 / 硕士管培生（待遇参照）",payok:true,salaryTier:"A",salaryTier:"A",welfareGood:true,sales:"无",ability:["供应链物流","运营商务","综合管理"],jlevel:"J-C",fit:"中高",major:"相关专业/相关",
+majorNote:"招聘专业含「物流管理、物流工程、供应链管理、土木工程」等——道桥属土木类，可对冲",
+access:{届别:"明确不符合",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"❌ 仅 2027 届；且硕士管培要硕士学历",gateType:"届别+学历",
+salary:"⭐本科8-15万/年，普通职能岗10-18万/年，硕士管培20-35万，核心技术岗25-40万；六险二金+人才公寓+食堂+落户申报+免费体检",
+deadline:"2027届校招在招",rstate:"在招",
+evidence:"A",channel:"官方网申 coscoshipping.com",url:"https://www.coscoshipping.com/",
+strengths:["⭐本轮核到的央国企待遇天花板：硕士管培20-35万、核心技术岗25-40万","六险二金+人才公寓+支持落户申报","专业列「土木工程」→ 道桥可对冲","上海为集团总部"],
+risks:[
+"❌ 本批次 27 届，2025 届不可投","⚠️ 管培生要硕士","⚠️ 集团本部岗竞争极大"
+],
+next:"不投本批次。作为待遇标杆记录；2027 届时若已硕士再考虑；或走旗下中远海运物流社招通道"
+},
+{
+id:"pg05",company:"中国人保（总包最高但多数岗位有销售压力）",entity:"中国人民保险集团股份有限公司（连续16年《财富》世界500强，1万+机构）",natureType:"央企",tier:"集团本部/成员单位",region:"全国",city:"北京/上海/各省省公司",
+role:"⭐仅限非销售岗：科技运营岗/综合保障岗/信息技术岗",payok:true,salaryTier:"S",salaryTier:"S",welfareGood:true,sales:"有",ability:["数字化AI","运营商务","综合管理"],jlevel:"J-D",fit:"中",major:"专业不限",
+majorNote:"招聘专业覆盖「几十个专业」，理工科技类含计算机/电子信息/数据科学/数学 → 可部分对冲",
+access:{届别:"明确不符合",专业:"专业不限",经验:"无要求",英语:"未知",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"❌ 2027 届；且须严格避开销售类岗位",gateType:"届别",
+salary:"⭐总包20-22万/年（含年终绩效+学历技能专项津贴）；六险二金+补充商业医疗+双休+体检+食堂+部分地区租房补贴+交通通讯补贴",
+deadline:"2027-04-25（集团本级 2026 年 10 月中旬截止）",rstate:"在招",
+evidence:"A",channel:"官方 picc.zhiye.com",url:"https://picc.zhiye.com/xiaoyuan",
+strengths:["⭐总包 20-22 万，是本轮核到的央企最高薪（除中远硕士管培）","六险二金+双休+食堂，福利完整","科技运营/综合保障岗是纯办公室岗","网申通道开放至 2027-04-25，时间充裕"],
+risks:[
+"❌ 2027 届，届别不符",
+"❌⚠️ 关键：人保绝大多数岗位带销售属性（客户经理/出单岗/理赔服务/核保/农险业务/个人业务维护）→ 与你的「无销售压力」红线直接冲突",
+"仅科技运营/信息技术/综合保障等少数岗符合，但专业门槛在理工科"
+],
+next:"不投（届别不符 + 岗位结构与你的红线不匹配）。记录待遇标杆：总包20-22万，用于评估其他offer"
+},
+{
+id:"pg06",company:"中粮集团",entity:"中粮集团有限公司（中央直接管理，世界500强，农粮食品全产业链）",natureType:"央企",tier:"集团本部/成员单位",region:"北京/全国",city:"北京及分子公司",
+role:"物流供应链类 / 大宗贸易类 / 运营管理类",payok:true,salaryTier:"B",salaryTier:"B",welfareGood:true,sales:"无",ability:["供应链物流","采购招采","运营商务"],jlevel:"J-C",fit:"高",major:"相关专业/相关",
+majorNote:"招聘专业含「物流供应链类、大宗贸易类、运营管理类」等，「优粮生计划」为管培品牌",
+access:{届别:"明确不符合",专业:"相关",经验:"无要求",英语:"有优势",性质:"符合",薪资:"达标",学历:"达标"},
+gate:"❌ 2027 届",gateType:"届别",
+salary:"六险二金+用餐补贴+节日关怀+健康体检+交通补贴；「有市场竞争力的薪酬水平」",
+deadline:"2026-10-28",rstate:"在招",
+evidence:"A",channel:"官方校招 campus.51job.com/cofco",url:"https://campus.51job.com/cofco",
+strengths:["岗位方向与你的供应链/贸易目标直接对口","中粮沿江大区覆盖江苏浙江","六险二金+完整福利","「优粮生计划」培养体系清晰"],
+risks:["❌ 2027 届，届别不符","中粮集团本部岗多在北京"],
+next:"不投本批次；订阅官网，2027 届春招再看；子公司层级（中粮贸易沿江大区）届别可能更宽"
+}
+];
+
+/* ================= 状态与工具 ================= */
+const LS='zjd_soe_status_v1';
+const FILTER_IDS=["paytier","paytier",'q','region','nature','tier','jlevel','fit','major','ability','jiebie','exp','nature2','evi','rstate','srcbatch','payok','welfare','office','nosales'];
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function getStatus(id){return localStorage.getItem(LS+':'+id)||'未投递'}
+function setStatus(id,v){localStorage.setItem(LS+':'+id,v)}
+function clearAllStatus(){POS.forEach(p=>localStorage.removeItem(LS+':'+p.id));render()}
+const DL_ST={'在招':'open','即将发布':'soon','长期滚动':'rolling','已截止':'closed'};
+const JCLS={ 'J-A':'ja','J-B':'jb','J-C':'jc','J-D':'jd' };
+const JNAME={ 'J-A':'J-A 现在就投','J-B':'J-B 问一项','J-C':'J-C 跟踪','J-D':'J-D 排除'};
+const OPTS=['未投递','已投递','简历已投','问过HR','笔试/面试中','已 offer','已排除'];
+const FITCLS={'高':'ok','中高':'ok','中':'warn','低':'bad'};
+const AC={符合:'ok',达标:'ok',无要求:'ok',有优势:'ok','专业不限':'ok',相关:'ok',明确符合:'ok',待确认:'warn',待核:'warn',部分冲突:'warn',略不足:'warn','专业目录不含':'warn','不适用':'na',未知:'na','未知→待核':'na','未知(在招期)':'na','明显不足':'bad'};
+function acCls(v){return AC[v]||'na'}
+
+function kpiRow(){
+  const act=POS.filter(p=>p.rstate==='在招'||p.rstate==='长期滚动');
+  const ja=POS.filter(p=>p.jlevel==='J-A');
+  const jb=POS.filter(p=>p.jlevel==='J-B');
+  const jc=POS.filter(p=>p.jlevel==='J-C');
+  const jd=POS.filter(p=>p.jlevel==='J-D');
+  const urgent=POS.filter(p=>p.deadline&&p.deadline.indexOf('2026-10')===0);
+  const newOnes=POS.filter(p=>p.id.indexOf('pe')===0);
+  const allHard=POS.filter(p=>p.payok&&p.welfareGood&&p.access.性质==='符合'&&p.sales==='无');
+  const highPay=POS.filter(p=>p.salaryTier==='S'||p.salaryTier==='A');
+  const applied=POS.filter(p=>['已投递','简历已投','问过HR','笔试/面试中','已 offer'].includes(getStatus(p.id))).length;
+  document.getElementById('kpis').innerHTML=
+   `<div class="kpi urgent"><div class="n">${ja.length}</div><div class="l">J-A 现在就投</div></div>`+
+   `<div class="kpi"><div class="n">${jb.length}</div><div class="l">J-B 问一项</div></div>`+
+   `<div class="kpi"><div class="n">${jc.length}</div><div class="l">J-C 长期跟踪</div></div>`+
+   `<div class="kpi"><div class="n">${jd.length}</div><div class="l">J-D 硬冲突排除</div></div>`+
+   `<div class="kpi urgent"><div class="n">${urgent.length}</div><div class="l">10月截止窗口</div></div>`+
+   `<div class="kpi"><div class="n">${newOnes.length}</div><div class="l">视频/架构新增</div></div>`+
+   `<div class="kpi" style="background:#F0FDF4;border-color:#BBF7D0"><div class="n" style="color:#15803D">${allHard.length}</div><div class="l">全硬要求命中</div></div>`+
+   `<div class="kpi" style="background:#F0FDF4;border-color:#BBF7D0"><div class="n" style="color:#15803D">${allHard.length}</div><div class="l">全硬要求命中</div></div>`+
+   `<div class="kpi"><div class="n">${applied}</div><div class="l">已记录投递</div></div>`+
+   `<div class="kpi"><div class="n">${POS.length}</div><div class="l">岗位线索总数</div></div>`;
+}
+
+function cardTags(p){
+  return `<div class="pillLine">`+
+   `<span class="tag blue">${esc(p.natureType)}</span>`+
+   `<span class="tag">${esc(p.tier)}</span>`+
+   `<span class="tag">${esc(p.region)}·${esc(p.city)}</span>`+
+   p.ability.map(a=>`<span class="tag">${esc(a)}</span>`).join('')+
+   `<span class="tag ${p.major==='专业不限'?'good':p.major==='明确列我专业'?'good':p.major==='专业目录不含'?'bad':'warn'}">专业：${esc(p.major)}</span>`+
+   `<span class="tag ${p.salaryTier==='S'?'good':p.salaryTier==='A'?'good':p.salaryTier==='C'?'warn':p.salaryTier==='D'?'bad':''}">💰${esc(p.salaryTier)}档</span>`+
+   `<span class="tag ${p.welfareGood?'good':''}">🎁${p.welfareGood?'福利好':'福利待核'}</span>`+
+   `<span class="tag ${p.access.性质==='符合'?'good':p.access.性质==='部分冲突'?'warn':'bad'}">🏢${esc(p.access.性质)}</span>`+
+   `<span class="tag ${p.sales==='无'?'good':p.sales==='待确认'?'warn':'bad'}">🚫销售:${esc(p.sales)}</span>`+
+   `<span class="tag ${p.evidence==='A'?'good':p.evidence==='D'?'bad':''}">证据 ${esc(p.evidence)}</span>`+
+   `</div>`;
+}
+
+function accessGrid(p){
+  const a=p.access;
+  return `<div class="accessGrid">`+
+   `<div class="ai"><div class="k">届别</div><div class="v ${acCls(a.届别)}">${esc(a.届别)}</div></div>`+
+   `<div class="ai"><div class="k">专业</div><div class="v ${acCls(a.专业)}">${esc(a.专业)}</div></div>`+
+   `<div class="ai"><div class="k">经验</div><div class="v ${acCls(a.经验)}">${esc(a.经验)}</div></div>`+
+   `<div class="ai"><div class="k">英语</div><div class="v ${acCls(a.英语)}">${esc(a.英语)}</div></div>`+
+   `<div class="ai"><div class="k">工作性质</div><div class="v ${acCls(a.性质)}">${esc(a.性质)}</div></div>`+
+   `<div class="ai"><div class="k">薪资</div><div class="v ${acCls(a.薪资)}">${esc(a.薪资)}</div></div>`+
+   `<div class="ai"><div class="k">匹配度</div><div class="v ${FITCLS[p.fit]||'na'}">${esc(p.fit)}</div></div>`+
+   `<div class="ai"><div class="k">学历</div><div class="v ${acCls(a.学历)}">${esc(a.学历)}</div></div>`+
+   `</div>`;
+}
+
+function render(){
+  kpiRow();
+  const q=(document.getElementById('q').value||'').toLowerCase().trim();
+  const f={};FILTER_IDS.forEach(id=>f[id]=document.getElementById(id).value);
+  let arr=POS.filter(p=>{
+    if(q){
+      const hay=[p.company,p.entity,p.role,p.city,p.region,p.salary,p.gate,p.natureType,p.tier,p.majorNote,p.next,p.jlevel].join(' ').toLowerCase();
+      if(hay.indexOf(q)<0) return false;
+    }
+    if(f.region&&p.region!==f.region) return false;
+    if(f.nature&&p.natureType!==f.nature) return false;
+    if(f.tier&&p.tier!==f.tier) return false;
+    if(f.jlevel&&p.jlevel!==f.jlevel) return false;
+    if(f.fit&&p.fit!==f.fit) return false;
+    if(f.major&&p.major!==f.major) return false;
+    if(f.ability&&p.ability.indexOf(f.ability)<0) return false;
+    if(f.jiebie&&p.access.届别!==f.jiebie) return false;
+    if(f.exp&&p.access.经验!==f.exp) return false;
+    if(f.nature2&&p.access.性质!==f.nature2) return false;
+    if(f.evi&&p.evidence!==f.evi) return false;
+    if(f.rstate&&p.rstate!==f.rstate) return false;
+    if(f.srcbatch==='new'&&p.id.indexOf('pe')!==0) return false;
+    if(f.srcbatch==='old'&&p.id.indexOf('pe')===0) return false;
+    // 硬要求维度筛选
+    if(f.paytier&&p.salaryTier!==f.paytier) return false;
+    if(f.paytier&&p.salaryTier!==f.paytier) return false;
+    if(f.payok==='1'&&!p.payok) return false;
+    if(f.welfare==='1'&&!p.welfareGood) return false;
+    if(f.office&&p.access.性质!==f.office) return false;
+    if(f.nosales==='1'&&p.sales!=='无') return false;
+    if(f.nosales==='待确认'&&p.sales!=='待确认') return false;
+    if(f.nosales==='有'&&p.sales!=='有') return false;
+    return true;
+  });
+  const sort=document.getElementById('sort').value;
+  const ord={'J-A':0,'J-B':1,'J-C':2,'J-D':3};
+  const fitOrd={'高':0,'中高':1,'中':2,'低':3};
+  if(sort==='jlev') arr.sort((a,b)=>ord[a.jlevel]-ord[b.jlevel]||fitOrd[a.fit]-fitOrd[b.fit]);
+  else if(sort==='fit') arr.sort((a,b)=>fitOrd[a.fit]-fitOrd[b.fit]||ord[a.jlevel]-ord[b.jlevel]);
+  else if(sort==='dl') arr.sort((a,b)=>{const ka=a.deadline||'9999',kb=b.deadline||'9999';return ka<kb?-1:ka>kb?1:0});
+  else if(sort==='co') arr.sort((a,b)=>a.company.localeCompare(b.company,'zh-CN'));
+
+  document.getElementById('fnote').innerHTML=
+   `当前显示 <b>${arr.length}</b> / ${POS.length} 条 ｜ 排序：<b>${esc(document.getElementById('sort').selectedOptions[0].text)}</b> ｜ 投递状态存在本机浏览器，切换筛选不丢失`+
+   (arr.length?'':' ｜ <b>无匹配结果</b>——建议放宽专业口径或届别筛选；「专业目录不含」≠硬门槛，多数为「等相关」口径，值得问 HR');
+
+  const grid=document.getElementById('grid');
+  if(!arr.length){grid.innerHTML='<div class="box" style="grid-column:1/-1"><div class="txt">没有符合当前筛选的岗位。建议先放宽「专业口径」或「届别准入」——它们多数是「等相关」口径或待 HR 确认，不是硬淘汰。</div></div>';return}
+  grid.innerHTML=arr.map(p=>{
+    const st=getStatus(p.id);
+    const dlCls=DL_ST[p.rstate]||'open';
+    return `<article class="card" id="card-${p.id}">
+    <div class="cardHead">
+      <div class="top">
+        <div>
+          <div class="name">${esc(p.company)}</div>
+          <div class="meta">${esc(p.role)}<br>${esc(p.entity)}</div>
+        </div>
+        <div class="badge ${JCLS[p.jlevel]}">${JNAME[p.jlevel]}</div>
+      </div>
+      ${cardTags(p)}
+      <div class="linkbar" style="margin-top:6px">
+        <a class="btn primary" href="${esc(p.url)}" target="_blank" rel="noopener">官方投递入口</a>
+        <span class="dl ${dlCls}">${p.rstate==='在招'?'在招':p.rstate==='即将发布'?'即将发布':p.rstate==='长期滚动'?'长期滚动':'已截止'}｜${esc(p.deadline||'无明确截止')}</span>
+      </div>
+    </div>
+    <div class="body">
+      <div class="section"><div class="st">Access 门槛拆解（进入可行性）</div>${accessGrid(p)}
+        <div class="gate ${p.gateType==='none'?'none':''}"><div class="gl">主要进入门槛</div><div class="gv">${esc(p.gate)}</div></div>
+      </div>
+      <div class="two section">
+        <div class="box goodbox"><div class="st">✓ 你符合 / 优势（Fit ${esc(p.fit)}）</div><div class="txt">${p.strengths.map(s=>'· '+esc(s)).join('<br>')}</div></div>
+        <div class="box ${p.jlevel==='J-D'?'badbox':'warnbox'}"><div class="st">${p.jlevel==='J-D'?'✗ 硬冲突 / 排除原因':'! 风险 / 需注意'}</div><div class="txt">${p.risks.map(s=>'· '+esc(s)).join('<br>')}</div></div>
+      </div>
+      <div class="two section">
+        <div class="box"><div class="st">专业口径原文</div><div class="txt">${esc(p.majorNote)}</div></div>
+        <div class="box"><div class="st">薪资 / 待遇</div><div class="txt">${esc(p.salary)}</div></div>
+      </div>
+      <div class="section box infobox"><div class="st">下一步动作</div><div class="txt">${esc(p.next||'待定')}</div>
+        <div class="mini" style="margin-top:5px">渠道：${esc(p.channel)} ｜ 证据等级：${esc(p.evidence)}（A官方系统/官网 · B官方公众号或高校网转载 · C企业官方账号平台 · D第三方线索）</div>
+      </div>
+      <div class="statusRow">
+        <span style="font-size:10px;color:var(--muted);font-weight:700">投递状态</span>
+        <select class="statusSel" data-id="${p.id}">${OPTS.map(o=>`<option${st===o?' selected':''}>${o}</option>`).join('')}</select>
+        <span class="mini" style="margin-left:auto">${p.jlevel==='J-D'?'记录用于排除留档':'记录后可回看'}</span>
+      </div>
+    </div></article>`;
+  }).join('');
+  document.querySelectorAll('.statusSel').forEach(s=>s.onchange=e=>{setStatus(e.target.dataset.id,e.target.value);kpiRow()});
+}
+
+function fill(id,vals){const el=document.getElementById(id);[...new Set(vals.filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'zh-CN')).forEach(v=>el.insertAdjacentHTML('beforeend',`<option value="${esc(v)}">${esc(v)}</option>`))}
+fill('region',POS.map(p=>p.region));
+fill('tier',POS.map(p=>p.tier));
+fill('ability',POS.flatMap(p=>p.ability));
+for(const id of ['q']) document.getElementById(id).addEventListener('input',render);
+for(const id of FILTER_IDS) if(id!=='q') document.getElementById(id).addEventListener('change',render);
+document.getElementById('sort').addEventListener('change',render);
+document.getElementById('reset').onclick=()=>{FILTER_IDS.forEach(id=>document.getElementById(id).value='');document.getElementById('sort').value='jlev';render()};
+render();
+</script>
+</body>
+</html>
